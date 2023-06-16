@@ -15,9 +15,11 @@ To be added
 
 Copyright (C) Eduard Cristian Robu - All Rights Reserved
 
-This file is part of Properties V2 project
+This file is part of Properties project
 
-Properties V2 project can not be copied and/or distributed without the express permission of Eduard Cristian Robu
+Properties project can not be copied and/or distributed without the express permission of Eduard Cristian Robu
 
 Written by Eduard Cristian Robu <robu.edi.office at gmail.com>, 2023
+
+Eduard Cristian Robu works as a contractor, for any enquiries please contact using the <robu.edi.office at gmail.com> email address 
 
