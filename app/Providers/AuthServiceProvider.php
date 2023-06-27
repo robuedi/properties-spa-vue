@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Services\AuthServices\AuthLoginService;
+use App\Services\AuthServices\AuthLoginServiceInterface;
+use App\Services\AuthServices\AuthLogoutService;
+use App\Services\AuthServices\AuthLogoutServiceInterface;
+use App\Services\AuthServices\AuthRegisterService;
+use App\Services\AuthServices\AuthRegisterServiceInterface;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -21,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        app()->bind(AuthRegisterServiceInterface::class, AuthRegisterService::class);
+        app()->bind(AuthLoginServiceInterface::class, AuthLoginService::class);
+        app()->bind(AuthLogoutServiceInterface::class, AuthLogoutService::class);
     }
 }

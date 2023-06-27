@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Log;
 
 class Handler extends ExceptionHandler
 {
@@ -26,5 +27,16 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if($request->ajax()||$request->wantsJson()||preg_match('/^\/api\//', $request->getPathInfo()))
+        {
+            $request->headers->set('Accept', 'application/json');
+            $request->headers->set('Content-Type', 'application/json');
+        }
+
+        return parent::render($request, $exception);
     }
 }

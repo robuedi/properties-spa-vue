@@ -11,6 +11,29 @@ To be added
 - Vue Router
 - Vue Quasar
 
+
+## How to use it
+
+1. Install Docker
+2. Run `sail up -d`
+1. Run `sail composer install`
+
+
+### Web UI
+
+Go to http://localhost
+
+
+### API documentation 
+
+Go to http://localhost/api/documentation#/
+
+
+### PHPUnit
+
+Run `sail test`
+
+
 ## License
 
 Copyright (C) Eduard Cristian Robu - All Rights Reserved

@@ -4,8 +4,6 @@ namespace Tests\Feature\Api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use App\Models\User;
@@ -97,7 +95,7 @@ class AuthenticationTest extends TestCase
 
     public function test_unauthorized_logout_without_login(): void
     {
-        $this->postJson('api/v1/auth/logout')
+        $this->get('api/v1/auth/logout')
             ->assertStatus(401);
     }
 
@@ -116,15 +114,19 @@ class AuthenticationTest extends TestCase
             'Accept' => 'application/json'
         ]);
 
-
-        $this->postJson('api/v1/auth/logout', ['device_name'=>'spa'])
+        //logout request successfully
+        $this->get('api/v1/auth/logout')
             ->assertStatus(200);
 
+        //token removed successfully
+        $this->assertDatabaseMissing('personal_access_tokens', [
+            'tokenable_id' => $user->id,
+            'tokenable_type' => User::class,
+        ]);
 
-        //it won't fully logout, issue found unresolved also on the internet
-        //$this->postJson('api/v1/auth/logout')
-        //    ->assertStatus(401);
-
+        //session/cookie removed successfully
+        $this->get('api/v1/auth/logout')
+            ->assertStatus(401);
     }
 
 }
