@@ -1,16 +1,13 @@
-## Properties SPA Project
+## Properties SPA Project - Work in progress...
 
 Technologies used in the project:
 
 - Laravel 10 - PHP8.2
 - TypeScript
 - Vue.js 3
-
-To be added 
+- Vue Quasar
 - Pinia
 - Vue Router
-- Vue Quasar
-
 
 ## How to use it
 
