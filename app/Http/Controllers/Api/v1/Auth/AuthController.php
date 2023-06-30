@@ -8,6 +8,7 @@ use App\Http\Requests\v1\AuthRegisterRequest;
 use App\Services\AuthServices\AuthLoginServiceInterface;
 use App\Services\AuthServices\AuthLogoutServiceInterface;
 use App\Services\AuthServices\AuthRegisterServiceInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -88,7 +89,7 @@ class AuthController extends Controller
      *
      * Returns void
      */
-    public function register(AuthRegisterRequest $request)
+    public function register(AuthRegisterRequest $request) : JsonResponse
     {
         //do register
         $this->auth_register_service->register(name: $request->name, email: $request->email, password: $request->password);
@@ -143,12 +144,12 @@ class AuthController extends Controller
      *
      * Returns token
      */
-    public function login(AuthLoginRequest $request)
+    public function login(AuthLoginRequest $request) : JsonResponse
     {
         //do login
-        return response()->json([
+        return response()->json(['data' => [
             'token' => $this->auth_login_service->loginApi(email: $request->email, password: $request->password, device_name: $request->device_name)
-        ])->setStatusCode(Response::HTTP_OK);
+        ]])->setStatusCode(Response::HTTP_OK);
     }
 
     /**
@@ -166,11 +167,33 @@ class AuthController extends Controller
      *
      * Returns void
      */
-    public function logout(Request $request)
+    public function logout(Request $request) : JsonResponse
     {
         //do logout
         $this->auth_logout_service->logoutApi(bearer_token: $request->bearerToken());
 
         return response()->json()->setStatusCode(Response::HTTP_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/auth/user",
+     *      operationId="v1-auth-get-user",
+     *      tags={"api authentication"},
+     *      summary="User",
+     *      description="get user",
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation"
+     *       )
+     *     )
+     *
+     * Returns App/Model/User
+     */
+    public function getUser(Request $request) : JsonResponse
+    {
+        return response()->json(['data' => [
+            'user' => array_intersect_key($request->user()->toArray(), array_flip(['name', 'email']))
+        ]])->setStatusCode(Response::HTTP_OK);
     }
 }

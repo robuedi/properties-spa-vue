@@ -1,5 +1,9 @@
 <template>
-    <p>Home</p>
+
+    Home
+
 </template>
 
-<script setup></script>
+<script setup>
+
+</script>

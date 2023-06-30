@@ -128,6 +128,21 @@
                     }
                 }
             }
+        },
+        "/api/v1/auth/user": {
+            "get": {
+                "tags": [
+                    "api authentication"
+                ],
+                "summary": "User",
+                "description": "get user",
+                "operationId": "v1-auth-get-user",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
         }
     },
     "components": {

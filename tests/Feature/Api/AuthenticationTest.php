@@ -73,10 +73,12 @@ class AuthenticationTest extends TestCase
         ])
         ->assertStatus(200)
         ->assertJsonStructure([
-            'token'
+            'data' => [
+                'token'
+            ]
         ]);
 
-        $this->assertNotEmpty($response->decodeResponseJson()['token'] ?? null);
+        $this->assertNotEmpty($response->decodeResponseJson()['data']['token'] ?? null);
     }
 
     public function test_user_login_fields_required(): void
@@ -110,7 +112,7 @@ class AuthenticationTest extends TestCase
             'device_name' => 'spa'
         ]);
         $this->withHeaders([
-            'Authorization' => 'Bearer '.$response->decodeResponseJson()['token'],
+            'Authorization' => 'Bearer '.$response->decodeResponseJson()['data']['token'],
             'Accept' => 'application/json'
         ]);
 
@@ -127,6 +129,34 @@ class AuthenticationTest extends TestCase
         //session/cookie removed successfully
         $this->get('api/v1/auth/logout')
             ->assertStatus(401);
+    }
+
+    public function test_user_data_returned_successfully(): void
+    {
+        $password = Str::random(10);
+        $user = User::factory()->create(['password'=> $password]);
+
+        $response = $this->postJson('api/v1/auth/login', [
+            'email'=> $user->email,
+            'password'=> $password,
+            'device_name' => 'spa'
+        ]);
+        $this->withHeaders([
+            'Authorization' => 'Bearer '.$response->decodeResponseJson()['data']['token'],
+            'Accept' => 'application/json'
+        ]);
+
+        //logout request successfully
+        $this->get('api/v1/auth/user')
+            ->assertJson([
+                'data' => [
+                    'user' => [
+                        'name' => $user->name,
+                        'email' => $user->email
+                    ]
+                ]
+            ]);
+
     }
 
 }

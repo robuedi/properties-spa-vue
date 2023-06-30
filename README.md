@@ -3,7 +3,6 @@
 Technologies used in the project:
 
 - Laravel 10 - PHP8.2
-- TypeScript
 - Vue.js 3
 - Vue Quasar
 - Pinia
