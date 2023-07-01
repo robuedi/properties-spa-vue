@@ -15,8 +15,11 @@ export const useAuthStore = defineStore("auth",{
         authUser: (state) => state.user
     },
     actions: {
-        async login(email, password) {
-            return axios.post("auth/login", {email: email, password: password, device_name: 'web'})
+        async register(credentials) {
+            return axios.post("auth/register", {name: credentials.name, email: credentials.email, password: credentials.password, password_confirmation: credentials.password_confirmation})
+        },
+        async login(credentials) {
+            return axios.post("auth/login", {email: credentials.email, password: credentials.password, device_name: credentials?.deviceName ?? 'web'})
                 .then((response) => {
                     //check our response
                     if(!response.data?.data?.token){

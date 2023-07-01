@@ -23,7 +23,7 @@ class AuthLoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required|min:6',
+            'password' => 'required',
             'device_name' => 'required|min:2'
         ];
     }
