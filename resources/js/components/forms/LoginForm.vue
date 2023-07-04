@@ -1,13 +1,12 @@
 <template>
     <q-form @submit="doLogin">
         <q-card class="q-pa-md shadow-2" bordered style="width: 25rem; max-width: 100vw;">
-            <!-- <span v-if="auth.isLogged">Hello {{ auth.authUser.name }} !</span> -->
             <q-card-section class="text-center">
                 <div class="text-grey-9 text-h5 text-weight-bold">Sign in</div>
             </q-card-section>
             <q-card-section class="q-gutter-md"> 
-                <q-input v-bind="email" name="email" :error-message="errors.email" :error="!!errors.email" label="Email" />
-                <q-input v-bind="password" name="current-password" :error-message="errors.password" :error="!!errors.password" type="password" label="Password" />
+                <q-input v-bind="email" :debounce="5000" name="email" :error-message="errors.email" :error="!!errors.email" label="Email" />
+                <q-input v-bind="password" :debounce="5000" name="current-password" :error-message="errors.password" :error="!!errors.password" type="password" label="Password" />
             </q-card-section>
             <q-card-section v-if="errors?.general">
                 <span  class="text-red">{{errors?.general}}</span>
@@ -27,7 +26,7 @@
 <script setup>
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useAuthStore } from "~/store/auth.store";
+import { useAuthStore } from "@/store/auth.store";
 
 //set props
 const props = defineProps({
@@ -37,8 +36,6 @@ const props = defineProps({
         default: false
     }
 })
-
-const auth = useAuthStore()
 
 //set form validation schema
 const { defineComponentBinds, handleSubmit, errors} = useForm({
@@ -53,19 +50,22 @@ const email = defineComponentBinds('email');
 const password = defineComponentBinds('password');
 
 //do the login
+const auth = useAuthStore()
+const emit = defineEmits(['loggedIn'])
 const doLogin = handleSubmit((values, { setErrors, resetForm }) => {
   auth.login(values)
     .then(() => {
         resetForm()
+        emit('loggedIn', true)
     })
     .catch((err)=>{
-        if(Array.isArray(err.response.data.errors)&&err.response.data.errors.length > 0){
+        if(Array.isArray(err?.response?.data?.errors)&&err?.response?.data?.errors?.length > 0){
             setErrors({'general': err.response.data.errors.flat()})
         }
         else{
-            setErrors(err.response.data.errors)
+            setErrors(err?.response?.data?.errors?? {'general': ['There have been some error processing your request.']})
         }
     })
 });
-
+loggedIn
 </script>

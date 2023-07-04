@@ -58,7 +58,7 @@
 
             <q-menu auto-close>
               <q-list dense>
-                <q-item clickable class="GL__menu-link">
+                <q-item clickable to="profile" class="GL__menu-link">
                   <q-item-section>Your profile</q-item-section>
                 </q-item>
                 <q-item clickable class="GL__menu-link">
@@ -75,9 +75,7 @@
 
     </q-header>
 
-    <q-page-container>
-      <router-view />
-    </q-page-container>
+    <router-view />
 
   </q-layout>
 </template>
@@ -85,7 +83,7 @@
 <script setup>
 
 import { onMounted } from "vue";
-import { useAuthStore } from "~/store/auth.store";
+import { useAuthStore } from "@/store/auth.store";
 
 const auth = useAuthStore()
 

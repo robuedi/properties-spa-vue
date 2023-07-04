@@ -5,10 +5,10 @@
                 <div class="text-grey-9 text-h5 text-weight-bold">Register</div>
             </q-card-section>
             <q-card-section class="q-gutter-md"> 
-                <q-input v-bind="name" :error-message="errors.email" :error="!!errors.email" label="Name" />
-                <q-input v-bind="email" autocomplete="email" :error-message="errors.email" :error="!!errors.email" label="Email" />
-                <q-input v-bind="password" autocomplete="new-password" :error-message="errors.password" :error="!!errors.password" type="password" label="Password" />
-                <q-input v-bind="password_confirmation"  autocomplete="new-password" :error-message="errors.password_confirmation" :error="!!errors.password" type="password" label="Confirm Password" />
+                <q-input v-bind="name" :debounce="5000" :error-message="errors.name" :error="!!errors.name" label="Name" />
+                <q-input v-bind="email" :debounce="5000" autocomplete="email" :error-message="errors.email" :error="!!errors.email" label="Email" />
+                <q-input v-bind="password" :debounce="5000" autocomplete="new-password" :error-message="errors.password" :error="!!errors.password" type="password" label="Password" />
+                <q-input v-bind="password_confirmation" :debounce="5000" autocomplete="new-password" :error-message="errors.password_confirmation" :error="!!errors.password_confirmation" type="password" label="Confirm Password" />
             </q-card-section>
             <q-card-section v-if="errors?.general">
                 <span  class="text-red">{{errors?.general}}</span>
@@ -28,7 +28,7 @@
 <script setup>
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useAuthStore } from "~/store/auth.store";
+import { useAuthStore } from "@/store/auth.store";
 
 //set props
 const props = defineProps({
