@@ -3,6 +3,7 @@
 namespace App\Services\AuthServices;
 
 use Illuminate\Validation\ValidationException;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthLoginService implements AuthLoginServiceInterface
 {
@@ -19,5 +20,16 @@ class AuthLoginService implements AuthLoginServiceInterface
         }
 
         return auth()->user()->createToken($device_name)->plainTextToken;
+    }
+
+    public function refreshToken() : string|ValidationException
+    {
+        //clear the current token if found, if not then clear all
+        $token = PersonalAccessToken::findToken(request()->bearerToken());
+
+        //delete existing tokens
+        auth()->user()->tokens()->delete();
+
+        return auth()->user()->createToken($token->name ?? 'default')->plainTextToken;
     }
 }

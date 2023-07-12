@@ -27,10 +27,38 @@ export default [
         beforeEnter: redirectLoggedToHome
     },
     {
-        path: '/profile',
-        name: 'profile',
-        component: () => import('@/views/user/Profile.vue'),
+        path: '/user',
+        name: 'user',
+        redirect: { name: "messages" },
+        component: () => import('@/components/layout/UserLayout.vue'),
         meta: { requireAuth: true },
+        children: [
+            {
+                path: 'messages',
+                name: 'messages',
+                component: () => import('@/views/user/Messages.vue'),
+            },
+            {
+                path: 'properties',
+                name: 'properties',
+                component: () => import('@/views/user/Properties.vue'),
+            },
+            {
+                path: 'saved-properties',
+                name: 'saved-properties',
+                component: () => import('@/views/user/SavedProperties.vue'),
+            },
+            {
+                path: 'saved-searches',
+                name: 'saved-searches',
+                component: () => import('@/views/user/SavedSearches.vue'),
+            },
+            {
+                path: 'profile-details',
+                name: 'profile-details',
+                component: () => import('@/views/user/ProfileDetails.vue'),
+            }
+        ]
     },
     {
         path: '/rent',

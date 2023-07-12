@@ -67,5 +67,5 @@ const doLogin = handleSubmit((values, { setErrors, resetForm }) => {
         }
     })
 });
-loggedIn
+
 </script>

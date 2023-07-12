@@ -1,0 +1,1 @@
+<template>saved searches</template>

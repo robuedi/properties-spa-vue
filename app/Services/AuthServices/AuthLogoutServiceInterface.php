@@ -6,5 +6,5 @@ namespace App\Services\AuthServices;
 
 interface AuthLogoutServiceInterface
 {
-    public function logoutApi(string|null $bearer_token) : void;
+    public function logoutApi(?string $bearer_token = null) : void;
 }

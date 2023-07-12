@@ -11,6 +11,7 @@ use App\Services\AuthServices\AuthRegisterServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Log;
 
 /**
  * Class AuthController
@@ -167,10 +168,10 @@ class AuthController extends Controller
      *
      * Returns void
      */
-    public function logout(Request $request) : JsonResponse
+    public function logout() : JsonResponse
     {
         //do logout
-        $this->auth_logout_service->logoutApi(bearer_token: $request->bearerToken());
+        $this->auth_logout_service->logoutApi();
 
         return response()->json()->setStatusCode(Response::HTTP_OK);
     }
@@ -194,6 +195,29 @@ class AuthController extends Controller
     {
         return response()->json(['data' => [
             'user' => array_intersect_key($request->user()->toArray(), array_flip(['name', 'email']))
+        ]])->setStatusCode(Response::HTTP_OK);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/auth/refresh-token",
+     *      operationId="v1-auth-refresh-token",
+     *      tags={"api authentication"},
+     *      summary="Refresh token",
+     *      description="refresh token",
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation"
+     *       )
+     *     )
+     *
+     * Returns App/Model/User
+     */
+    public function refreshToken(Request $request) : JsonResponse
+    {
+        //do token refresh
+        return response()->json(['data' => [
+            'token' => $this->auth_login_service->refreshToken()
         ]])->setStatusCode(Response::HTTP_OK);
     }
 }

@@ -6,10 +6,10 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthLogoutService implements AuthLogoutServiceInterface
 {
-    public function logoutApi(string|null $bearer_token) : void
+    public function logoutApi(?string $bearer_token = null) : void
     {
         //clear the current token if found, if not then clear all
-        $token = PersonalAccessToken::findToken($bearer_token);
+        $token = PersonalAccessToken::findToken($bearer_token ?? request()->bearerToken());
 
         //token invalidation
         if($token)

@@ -159,4 +159,35 @@ class AuthenticationTest extends TestCase
 
     }
 
+    public function test_refresh_token(): void
+    {
+        $password = Str::random(10);
+        $user = User::factory()->create(['password'=> $password]);
+
+        $response = $this->postJson('api/v1/auth/login', [
+            'email'=> $user->email,
+            'password'=> $password,
+            'device_name' => 'spa'
+        ]);
+        $this->withHeaders([
+            'Authorization' => 'Bearer '.$response->decodeResponseJson()['data']['token'],
+            'Accept' => 'application/json'
+        ]);
+
+        //refresh successfully
+        $this->get('api/v1/auth/refresh-token')
+            ->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    'token'
+                ]
+            ]);
+    }
+
+    public function test_refresh_token_login_requested(): void
+    {
+        //refreshed token needed
+        $this->get('api/v1/auth/refresh-token')
+            ->assertStatus(401);
+    }
 }
