@@ -5,8 +5,13 @@
 </template>
 
 <script setup>
+import { onMounted } from "vue";
+import { useAuthStore } from "@/store/auth.store";
+import DefaultLayout from "@/layouts/DefaultLayout.vue";
 
-import DefaultLayout from "@/components/layout/DefaultLayout.vue";
-
+const auth = useAuthStore()
+onMounted(() => {
+    auth.refreshToken()
+})
 </script>
 

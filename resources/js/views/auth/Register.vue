@@ -1,9 +1,7 @@
 <template>
-    <q-page-container>
-        <q-page class="flex flex-center bg-grey-2">
-            <RegisterForm v-on:registered="goLogin()" />
-        </q-page >
-    </q-page-container>
+    <q-page class="flex flex-center bg-grey-2">
+        <RegisterForm v-on:registered="goLogin()" />
+    </q-page >
 </template>
 
 <script setup>

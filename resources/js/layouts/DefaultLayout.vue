@@ -11,7 +11,7 @@
   
   <script setup>
   
-  import DefaultHeader from '@/components/layout/headers/DefaultHeader.vue'
+  import DefaultHeader from '@/layouts/headers/DefaultHeader.vue'
   
   </script>
   

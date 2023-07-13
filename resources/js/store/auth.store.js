@@ -22,20 +22,41 @@ export const useAuthStore = defineStore("auth",{
             return axios.post("auth/login", {email: credentials.email, password: credentials.password, device_name: credentials?.deviceName ?? 'web'})
                 .then((response) => {
                     //check our response
-                    if(!response.data?.data?.token){
+                    if(!response?.data?.data?.token){
                         return Promise.reject({message: 'Invalid response from the server.'})
                     }
 
                     this.token = `Bearer ${response.data.data.token}`;
                         
                     //set axios token
-                    this.setToken()
+                    this.setAxiosAuthorization()
 
                     //get the user data
                     this.getUser()
 
                     return response
                 })
+        },
+        async refreshToken() {
+            this.setAxiosAuthorization()
+            return axios.get("auth/refresh-token")
+                .then((response) => {
+                    //check our response
+                    if(!response?.data?.data?.token){
+                        return Promise.reject({message: 'Invalid response from the server.'})
+                    }
+
+                    this.token = `Bearer ${response.data.data.token}`;
+                        
+                    //set axios token
+                    this.setAxiosAuthorization()
+
+                    //get the user data
+                    this.getUser()
+
+                    return response
+                })
+                .catch(()=>{})
         },
         async getUser(){
             return axios.get("auth/user")
@@ -53,11 +74,20 @@ export const useAuthStore = defineStore("auth",{
                 .then((response) => {
                     this.user = {...defaultUser};
                     this.token = '';
+                    this.clearAxiosAuthorization()
                     return response
                 })
         },
-        async setToken(){
-            axios.defaults.headers.common["Authorization"] = this.authToken;
+        async setAxiosAuthorization(){
+            axios.defaults.headers.common["Authorization"] = this.token;
+        },
+        async clearAxiosAuthorization(){
+            axios.defaults.headers.common["Authorization"] = '';
+        },
+        clearUserCache(){
+            this.user = {...defaultUser};
+            this.token = '';
+            this.clearAxiosAuthorization()
         }
     }
 });

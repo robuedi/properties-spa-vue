@@ -2,7 +2,7 @@ import { useAuthStore } from '@/store/auth.store'
 
 const redirectLoggedToHome = (to, from, next) => {
     if (useAuthStore().isLogged) {
-        next({ name: 'home' })
+        next({ name: 'user' })
     } else {
         next()
     }
@@ -30,7 +30,7 @@ export default [
         path: '/user',
         name: 'user',
         redirect: { name: "messages" },
-        component: () => import('@/components/layout/UserLayout.vue'),
+        component: () => import('@/layouts/UserLayout.vue'),
         meta: { requireAuth: true },
         children: [
             {

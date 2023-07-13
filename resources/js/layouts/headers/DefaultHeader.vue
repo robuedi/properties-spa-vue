@@ -63,7 +63,7 @@
                 <q-item clickable class="GL__menu-link">
                     <q-item-section>Settings</q-item-section>
                 </q-item>
-                <q-item v-on:click="auth.logout()" clickable class="GL__menu-link">
+                <q-item v-on:click="doLogout()" clickable class="GL__menu-link">
                     <q-item-section>Logout</q-item-section>
                 </q-item>
             </q-list>
@@ -75,16 +75,20 @@
     </q-header>
   </template>
   
-  <script setup>
-  import { onMounted } from "vue";
-  import { useAuthStore } from "@/store/auth.store";
-  
-  const auth = useAuthStore()
-  
-  onMounted(() => {
-    auth.setToken()
-  })
-  
-  </script>
+<script setup>
+import { useAuthStore } from "@/store/auth.store";
+import { useRouter } from "vue-router";
+
+const auth = useAuthStore()
+const router = useRouter()
+
+//logout function
+const doLogout = () => {
+    auth.logout().then(()=>{
+        router.push({name: 'home'})
+    })
+}
+
+</script>
   
   
