@@ -8,7 +8,7 @@
         "/api/v1/auth/register": {
             "post": {
                 "tags": [
-                    "api authentication"
+                    "authentication"
                 ],
                 "summary": "Register",
                 "description": "Register user",
@@ -68,7 +68,7 @@
         "/api/v1/auth/login": {
             "post": {
                 "tags": [
-                    "api authentication"
+                    "authentication"
                 ],
                 "summary": "Login",
                 "description": "Login user",
@@ -117,7 +117,7 @@
         "/api/v1/auth/logout": {
             "get": {
                 "tags": [
-                    "api authentication"
+                    "authentication"
                 ],
                 "summary": "Logout",
                 "description": "Logout user",
@@ -132,7 +132,7 @@
         "/api/v1/auth/user": {
             "get": {
                 "tags": [
-                    "api authentication"
+                    "authentication"
                 ],
                 "summary": "User",
                 "description": "get user",
@@ -147,11 +147,26 @@
         "/api/v1/auth/refresh-token": {
             "get": {
                 "tags": [
-                    "api authentication"
+                    "authentication"
                 ],
                 "summary": "Refresh token",
                 "description": "refresh token",
                 "operationId": "v1-auth-refresh-token",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/properties": {
+            "get": {
+                "tags": [
+                    "properties"
+                ],
+                "summary": "Properties",
+                "description": "get properties",
+                "operationId": "v1-properties-index",
                 "responses": {
                     "200": {
                         "description": "successful operation"

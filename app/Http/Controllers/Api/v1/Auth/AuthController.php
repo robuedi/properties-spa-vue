@@ -11,7 +11,6 @@ use App\Services\AuthServices\AuthRegisterServiceInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Log;
 
 /**
  * Class AuthController
@@ -36,7 +35,7 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/api/v1/auth/register",
      *      operationId="v1-auth-register",
-     *      tags={"api authentication"},
+     *      tags={"authentication"},
      *      summary="Register",
      *      description="Register user",
      *      @OA\Parameter(
@@ -102,7 +101,7 @@ class AuthController extends Controller
      * @OA\Post(
      *      path="/api/v1/auth/login",
      *      operationId="v1-auth-login",
-     *      tags={"api authentication"},
+     *      tags={"authentication"},
      *      summary="Login",
      *      description="Login user",
      *      @OA\Parameter(
@@ -157,7 +156,7 @@ class AuthController extends Controller
      * @OA\Get(
      *      path="/api/v1/auth/logout",
      *      operationId="v1-auth-logout",
-     *      tags={"api authentication"},
+     *      tags={"authentication"},
      *      summary="Logout",
      *      description="Logout user",
      *      @OA\Response(
@@ -180,7 +179,7 @@ class AuthController extends Controller
      * @OA\Get(
      *      path="/api/v1/auth/user",
      *      operationId="v1-auth-get-user",
-     *      tags={"api authentication"},
+     *      tags={"authentication"},
      *      summary="User",
      *      description="get user",
      *      @OA\Response(
@@ -202,7 +201,7 @@ class AuthController extends Controller
      * @OA\Get(
      *      path="/api/v1/auth/refresh-token",
      *      operationId="v1-auth-refresh-token",
-     *      tags={"api authentication"},
+     *      tags={"authentication"},
      *      summary="Refresh token",
      *      description="refresh token",
      *      @OA\Response(
