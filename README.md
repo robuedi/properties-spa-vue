@@ -12,7 +12,8 @@ Technologies used in the project:
 
 1. Install Docker
 2. Run `sail up -d`
-1. Run `sail composer install`
+3. Run `sail composer install`
+4. Run `sail artisan db:seed`
 
 
 ### Web UI
