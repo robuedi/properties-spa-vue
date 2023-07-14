@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('owner_id')->index();
             $table->unsignedBigInteger('property_type_id')->index();
-            $table->unsignedBigInteger('address_id')->index();
+            $table->unsignedBigInteger('address_id')->index()->nullable();
             $table->unsignedBigInteger('listing_type_id')->index();
             $table->text('description');
             $table->integer('bedrooms');

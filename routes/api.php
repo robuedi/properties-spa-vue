@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\Auth\AuthController;
 use App\Http\Controllers\Api\v1\PropertiesController;
+use App\Http\Controllers\Api\v1\CountriesController;
+use App\Http\Controllers\Api\v1\CitiesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +31,11 @@ Route::prefix('v1')->group(function(){
             Route::get('refresh-token', [AuthController::class, 'refreshToken']);
         });
     });
-
-
+    
+    
     Route::apiResource('properties', PropertiesController::class);
+    Route::get('countries', [CountriesController::class, 'index']);
+    Route::get('cities', [CitiesController::class, 'index']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

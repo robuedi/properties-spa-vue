@@ -159,6 +159,72 @@
                 }
             }
         },
+        "/api/v1/cities": {
+            "get": {
+                "tags": [
+                    "cities"
+                ],
+                "summary": "Cities",
+                "description": "get cities",
+                "operationId": "v1-cities-index",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter the results",
+                        "style": "deepObject",
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "London"
+                                },
+                                "country_id": {
+                                    "type": "integer",
+                                    "example": "1"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    {
+                        "name": "fields",
+                        "in": "query",
+                        "description": "Fields",
+                        "style": "deepObject",
+                        "schema": {
+                            "properties": {
+                                "cities": {
+                                    "type": "string",
+                                    "example": "id,name,country_id,created_at,updated_at"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/countries": {
+            "get": {
+                "tags": [
+                    "countries"
+                ],
+                "summary": "Countries",
+                "description": "get countries",
+                "operationId": "v1-countries-index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
         "/api/v1/properties": {
             "get": {
                 "tags": [
