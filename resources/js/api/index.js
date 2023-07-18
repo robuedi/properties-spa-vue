@@ -18,17 +18,17 @@ axios.interceptors.response.use(
         if ([401, 419].includes(error.response.status)){
             const auth = useAuthStore()
             auth.clearUserCache()
+            const router = useRouter()
 
             //check if we're just refreshing the token or logging out
             let responseURL = error.request.responseURL
-            if(responseURL.endsWith('/auth/refresh-token')
-            || responseURL.endsWith('/auth/logout')){
-                return Promise.reject(error)
-                
+            if(responseURL.endsWith('/auth/logout')){
+                router.push({name: 'home'})
             }
 
             const toast = useToast()
             toast.warning("You are unauthenticated, please login to continue.");
+            router.push({name: 'login'})
             return Promise.reject(error)
         }
         else{

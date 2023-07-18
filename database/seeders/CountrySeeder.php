@@ -15,6 +15,8 @@ class CountrySeeder extends Seeder
     {
         Country::insert([
             ['id'=> 1, 'name'=>'UK', 'created_at'=>date("Y-m-d H:i:s"), 'updated_at'=>date("Y-m-d H:i:s")],
+            ['id'=> 2, 'name'=>'Republic of Ireland', 'created_at'=>date("Y-m-d H:i:s"), 'updated_at'=>date("Y-m-d H:i:s")],
         ]);
     }
 }
+

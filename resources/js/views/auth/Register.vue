@@ -6,10 +6,13 @@
 
 <script setup>
 import RegisterForm from '@/components/forms/RegisterForm.vue';
+import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
 
 const router = useRouter()
+const toast = useToast();
 const goLogin = () => {
+    toast.success("Successful registration, please login.");
     router.push({name: 'login'})
 }
 </script>

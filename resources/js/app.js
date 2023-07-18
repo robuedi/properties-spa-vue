@@ -12,7 +12,7 @@ import 'quasar/src/css/index.sass'
 import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 
 //notifications
-import Toast from "vue-toastification";
+import Toast, {POSITION} from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 //api
@@ -26,7 +26,7 @@ import App from './App.vue'
 createApp(App)
 .use(router)
 .use(createPinia())
-.use(Toast)
+.use(Toast, { position: POSITION.BOTTOM_RIGHT })
 .use(Quasar, { 
     plugins: {},
     iconSet: quasarIconSet

@@ -1,40 +1,37 @@
 <template>
     <q-form >
-        <q-card class="q-pa-md shadow-2" bordered style="width: 25rem; max-width: 100vw;">
-            <q-card-section class="q-gutter-md"> 
-                <q-input v-bind="streetNr" :debounce="5000" :error-message="errors.street_nr" :error="!!errors.street_nr" label="Street Number" />
-                <q-input v-bind="street" :debounce="5000" :error-message="errors.street" :error="!!errors.street" label="street" />
-            </q-card-section>
-            <q-card-section v-if="errors?.general">
-                <span  class="text-red">{{errors?.general}}</span>
-            </q-card-section>
-        </q-card>
+        <div class="q-pa-md">
+            <div class="q-gutter-y-md column" >
+                <SelectCountry v-model="address.country" />
+
+                <SelectCity v-model="address.city" v-if="address.country" :country-id="address.country.id"/>
+
+                <q-input v-if="address.city" v-model="address.streetName" label="Street Name" />
+
+                <q-input v-if="address.city" v-model="address.streetNr" label="Street Number" />
+
+                <q-input v-if="address.city" v-model="address.postcode" label="Postcode" />
+            </div>
+        </div>
     </q-form>
 </template>
 
 <script setup>
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
+import {reactive, watch } from "vue";
+import SelectCity from '@/components/inputs/SelectCity.vue';
+import SelectCountry from '@/components/inputs/SelectCountry.vue';
 
-//set props
-const props = defineProps({
-    hideLoginLink: {
-        type: Boolean,
-        required: false,
-        default: false
-    }
+const address = reactive({
+    country: null,
+    city: null,
+    streetName: null,
+    streetNr: null,
+    postcode: null
 })
 
-//set form validation schema
-const { defineComponentBinds, handleSubmit, errors} = useForm({
-  validationSchema: yup.object({
-    name: yup.integer().required(),
-    email: yup.string().required(),
-  }),
-});
-
-//set input binders
-const streetNr = defineComponentBinds('streetNr');
-const street = defineComponentBinds('street');
+const emit = defineEmits(['updated'])
+watch(address, (newAddress) => {
+    emit('updated', JSON.parse(JSON.stringify(newAddress)))
+})
 
 </script>
