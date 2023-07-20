@@ -30,6 +30,10 @@ Go to http://localhost/api/documentation#/
 
 Run `sail test`
 
+### Screenshot
+
+![Screenshot](Screenshot.png)
+
 
 ## License
 
