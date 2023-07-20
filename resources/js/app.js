@@ -12,11 +12,13 @@ import 'quasar/src/css/index.sass'
 import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 
 //notifications
-import Toast, {POSITION} from "vue-toastification";
-import "vue-toastification/dist/index.css";
+import Toast, {POSITION} from "vue-toastification"
+import "vue-toastification/dist/index.css"
 
 //api
-import './api';
+import './api'
+
+import './bootstrap'
 
 //app custom scss
 import './../scss/app.scss'

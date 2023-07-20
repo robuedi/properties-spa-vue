@@ -8,9 +8,9 @@
                         <div class="col q-gutter-md">
                             <q-input v-model="property.name" label="Name" />
 
-                            <PropertyTypeInput />
+                            <PropertyTypeInput v-model="property.propertyType"/>
 
-                            <ListingTypeInput/>
+                            <ListingTypeInput v-model="property.listingType"/>
 
                             <q-input v-model="property.description" filled type="textarea" label="Description" />
 
@@ -46,5 +46,7 @@ const property = reactive({
     description: null,
     bedrooms: null,
     bathrooms: null,
+    listingType: null,
+    propertyType: null
 })
 </script>
