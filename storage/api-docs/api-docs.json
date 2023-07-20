@@ -225,6 +225,21 @@
                 }
             }
         },
+        "/api/v1/listing-types": {
+            "get": {
+                "tags": [
+                    "listing types"
+                ],
+                "summary": "Listing types",
+                "description": "get listing types",
+                "operationId": "v1-listing-types-index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
         "/api/v1/properties": {
             "get": {
                 "tags": [
@@ -233,6 +248,21 @@
                 "summary": "Properties",
                 "description": "get properties",
                 "operationId": "v1-properties-index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/property-types": {
+            "get": {
+                "tags": [
+                    "property types"
+                ],
+                "summary": "Property types",
+                "description": "get property types",
+                "operationId": "v1-property-types-index",
                 "responses": {
                     "200": {
                         "description": "successful operation"

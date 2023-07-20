@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 255);
             $table->unsignedBigInteger('owner_id')->index();
             $table->unsignedBigInteger('property_type_id')->index();
             $table->unsignedBigInteger('address_id')->index()->nullable();

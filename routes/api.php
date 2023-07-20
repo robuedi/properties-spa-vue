@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\v1\Auth\AuthController;
 use App\Http\Controllers\Api\v1\PropertiesController;
 use App\Http\Controllers\Api\v1\CountriesController;
 use App\Http\Controllers\Api\v1\CitiesController;
+use App\Http\Controllers\Api\v1\ListingTypesController;
+use App\Http\Controllers\Api\v1\PropertyTypesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,8 @@ Route::prefix('v1')->group(function(){
     Route::apiResource('properties', PropertiesController::class);
     Route::get('countries', [CountriesController::class, 'index']);
     Route::get('cities', [CitiesController::class, 'index']);
+    Route::get('listing-types', [ListingTypesController::class, 'index']);
+    Route::get('property-types', [PropertyTypesController::class, 'index']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -1,25 +1,19 @@
 <template>
-    <q-form >
-        <div class="q-pa-md">
-            <div class="q-gutter-y-md column" >
-                <SelectCountry v-model="address.country" />
+        <CountryInput v-model="address.country" />
 
-                <SelectCity v-model="address.city" v-if="address.country" :country-id="address.country.id"/>
+        <CityInput v-model="address.city" v-if="address.country" :country-id="address.country.id"/>
 
-                <q-input v-if="address.city" v-model="address.streetName" label="Street Name" />
+        <q-input v-if="address.city" v-model="address.streetName" label="Street Name" />
 
-                <q-input v-if="address.city" v-model="address.streetNr" label="Street Number" />
+        <q-input v-if="address.city" v-model="address.streetNr" label="Street Number" />
 
-                <q-input v-if="address.city" v-model="address.postcode" label="Postcode" />
-            </div>
-        </div>
-    </q-form>
+        <q-input v-if="address.city" v-model="address.postcode" label="Postcode" />
 </template>
 
 <script setup>
 import {reactive, watch } from "vue";
-import SelectCity from '@/components/inputs/SelectCity.vue';
-import SelectCountry from '@/components/inputs/SelectCountry.vue';
+import CityInput from '@/components/inputs/CityInput.vue';
+import CountryInput from '@/components/inputs/CountryInput.vue';
 
 const address = reactive({
     country: null,

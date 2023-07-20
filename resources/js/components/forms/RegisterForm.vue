@@ -1,6 +1,6 @@
 <template>
     <q-form @submit="doLogin">
-        <q-card class="q-pa-md shadow-2" bordered style="width: 25rem; max-width: 100vw;">
+        <q-card class="q-pa-md shadow-2 rounded-card" bordered style="width: 25rem; max-width: 100vw;">
             <q-card-section class="text-center">
                 <div class="text-grey-9 text-h5 text-weight-bold">Register</div>
             </q-card-section>

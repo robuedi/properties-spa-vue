@@ -41,7 +41,12 @@ export default [
             {
                 path: 'properties',
                 name: 'properties',
-                component: () => import('@/views/user/Properties.vue'),
+                component: () => import('@/views/user/properties/PropertiesIndex.vue'),
+            },
+            {
+                path: 'properties/add',
+                name: 'properties-add',
+                component: () => import('@/views/user/properties/PropertiesAdd.vue'),
             },
             {
                 path: 'saved-properties',

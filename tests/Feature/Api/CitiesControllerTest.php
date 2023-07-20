@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Api;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -8,7 +8,7 @@ use Illuminate\Http\Response;
 use App\Models\User;
 use Tests\TestCase;
 
-class CountriesControllerTest  extends TestCase
+class CitiesControllerTest  extends TestCase
 {
     use RefreshDatabase;
 
@@ -17,12 +17,12 @@ class CountriesControllerTest  extends TestCase
     {
         parent::setUp();
         $this->artisan('db:seed --class=CountrySeeder');
+        $this->artisan('db:seed --class=CitySeeder');
     }
 
     public function testIndexWorks(): void
     {
-        $this->actAsUser()
-        ->json('get', 'api/v1/countries')
+        $this->json('get', 'api/v1/cities')
         ->assertStatus(Response::HTTP_OK)
         ->assertJsonStructure(
             [
@@ -30,6 +30,7 @@ class CountriesControllerTest  extends TestCase
                     '*' => [
                         'id',
                         'name',
+                        'country_id',
                         'created_at',
                         'updated_at',
                     ]
@@ -40,14 +41,13 @@ class CountriesControllerTest  extends TestCase
 
     public function testIndexFieldsFilterWorks(): void
     {
-        $this->actAsUser()
-        ->json('get', 'api/v1/countries?fields[countries]=name&filter[name]=UK')
+        $this->json('get', 'api/v1/cities?fields[cities]=name&filter[name]=London')
         ->assertStatus(Response::HTTP_OK)
         ->assertJson(
             [
                 'data' => [
                     [
-                        'name' => 'UK'
+                        'name' => 'London'
                     ]
                 ]
             ]
