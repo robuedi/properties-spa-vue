@@ -32,7 +32,14 @@ class ListingTypesController extends Controller
      */
     public function index() : JsonResponse
     {
-        return ListingTypeResource::collection(ListingType::select(['id', 'name'])->get())->response()->setStatusCode(Response::HTTP_OK);
+        $public_fields = ['id', 'name'];
+        return ListingTypeResource::collection(ListingType::select($public_fields)->get())
+            ->additional(['meta' => [
+                'fields' => $public_fields
+            ]])
+            ->response()
+            ->setStatusCode(Response::HTTP_OK)
+            ->header('Cache-Control', 'max-age=86400');
     }
 
 }

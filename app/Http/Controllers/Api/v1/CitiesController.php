@@ -68,7 +68,7 @@ class CitiesController extends Controller
      */
     public function index() : JsonResponse
     {
-        $public_fields = City::getTableColumns();
+        $public_fields = ['id', 'name', 'country_id'];
 
         $cities = QueryBuilder::for(City::class)
                         ->allowedFilters([
@@ -81,7 +81,13 @@ class CitiesController extends Controller
                         ->paginate(request('limit', 100))
                         ->appends(request()->query());
 
-        return CityResource::collection($cities)->response()->setStatusCode(Response::HTTP_OK);
+        return CityResource::collection($cities)
+            ->additional(['meta' => [
+                'fields' => $public_fields
+            ]])
+            ->response()
+            ->setStatusCode(Response::HTTP_OK)
+            ->header('Cache-Control', 'max-age=86400');
     }
 
 }

@@ -33,9 +33,9 @@ class CountriesController extends Controller
      *
      * Returns App/Model/Country
      */
-    public function index(Request $request) : JsonResponse
+    public function index() : JsonResponse
     {
-        $public_fields = Country::getTableColumns();
+        $public_fields = ['id', 'name'];
 
         $countries = QueryBuilder::for(Country::class)
                         ->allowedFilters([
@@ -46,7 +46,13 @@ class CountriesController extends Controller
                         ->paginate(request('limit', 100))
                         ->appends(request()->query());
 
-        return CountryResource::collection($countries)->response()->setStatusCode(Response::HTTP_OK);
+        return CountryResource::collection($countries)
+                ->additional(['meta' => [
+                    'fields' => $public_fields
+                ]])
+                ->response()
+                ->setStatusCode(Response::HTTP_OK)
+                ->header('Cache-Control', 'max-age=86400');
     }
 
 }

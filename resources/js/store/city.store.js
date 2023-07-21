@@ -10,17 +10,10 @@ export const useCityStore = defineStore("city",{
         cities: (state) => state.cities_,
     },
     actions: {
-        async getAll(options = {}) {
-            let defaultOptions = {
-                where: {},
-                select: ['id','name', 'country_id']
-            }
-
+        async getAll(city = City.select('id', 'name', 'country_id')) {
             this.apiState = City.state.LOADING
             return new Promise((resolve, reject)=>{
-                City
-                .where(options.where ?? defaultOptions.where)
-                .select(...(options.select ?? defaultOptions.select))
+                city
                 .get()
                 .then((response)=>{
                     this.cities_ = response.data

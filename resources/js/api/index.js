@@ -1,5 +1,9 @@
 //setup axios
-import axios from 'axios';
+import Axios from 'axios';
+import { setupCache } from 'axios-cache-interceptor';
+
+const axios = setupCache(Axios); 
+
 window.axios = axios;
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -10,7 +14,7 @@ import { useAuthStore } from "@/store/auth.store";
 import { useToast } from "vue-toastification";
 
 //set interceptors
-axios.interceptors.response.use(
+window.axios.interceptors.response.use(
     //if all good continue
     (response)=> response,
     //if not

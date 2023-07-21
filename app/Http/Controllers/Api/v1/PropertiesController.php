@@ -33,7 +33,7 @@ class PropertiesController extends Controller
      *
      * Returns App/Model/User
      */
-    public function index(Request $request) : JsonResponse
+    public function index() : JsonResponse
     {
         $public_fields = Property::getTableColumns();
 
@@ -46,7 +46,12 @@ class PropertiesController extends Controller
                         ->paginate(request('limit', 100))
                         ->appends(request()->query());
 
-        return PropertyResource::collection($properties)->response()->setStatusCode(Response::HTTP_OK);
+        return PropertyResource::collection($properties)
+                ->additional(['meta' => [
+                    'fields' => $public_fields
+                ]])
+                ->response()
+                ->setStatusCode(Response::HTTP_OK);
     }
 
 }
