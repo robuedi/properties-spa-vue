@@ -30,8 +30,8 @@ export default [
         path: '/user',
         name: 'user',
         redirect: { name: "messages" },
-        component: () => import('@/layouts/UserLayout.vue'),
-        meta: { requireAuth: true },
+        component: () => import('@/layouts/UserInnerContainer.vue'),
+        meta: { requireAuth: true, plainPageContainer: true},
         children: [
             {
                 path: 'messages',

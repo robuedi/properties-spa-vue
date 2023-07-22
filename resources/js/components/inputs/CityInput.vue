@@ -1,5 +1,5 @@
 <template>
-    <q-select v-model="cityId" option-value="id"  option-label="name" :options="cityStore.cities" label="City" :clearable="true" ></q-select>
+  <Dropdown v-model="cityId" showClear :options="cityStore.cities" filter optionValue="id" optionLabel="name" placeholder="City" class="w-full"/>
 </template>
 
 <script setup>

@@ -1,87 +1,68 @@
 <template>
-    <q-header elevated  height-hint="98">
-    <q-toolbar>
-        <q-toolbar-title >
-        <router-link :to="{name: 'home'}" class="text-white txt-no-decoration">
-            <q-avatar>
-                <q-icon name="fa-solid fa-house" />
-            </q-avatar>
-            Properties
-        </router-link>
-        </q-toolbar-title>
+    <header class="surface-overlay py-2 px-6 border-bottom-1 surface-border relative lg:static">
+        <Menubar class="main-menu-bar-1 text-xl font-bold	" :model="items">
+            <template #start>
+                <Button @click="router.push({name: 'home'})" style="height: 50px; width:50px" class="mr-4" icon="pi pi-home" severity="primary" rounded size="large"  aria-label="home" />
+            </template>
+            <template #end>
+                <Button v-if="!auth.isLogged" @click="router.push({name: 'login'})" label="Sign In" rounded outlined  severity="info"  />
+                <SplitButton v-else :label="useAuthStore().authUser.name" :model="profileItems" outlined severity="secondary" @click="router.push({name: 'user'})" icon="pi pi-user" rounded ></SplitButton>
+            </template>
+        </Menubar>
+    </header>
+</template>
 
-        <div class="GL__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap">
-        <q-btn :to="{name: 'rent'}"  size="lg" dense flat>
-            To Rent
-        </q-btn>
-        <q-space/>  
-        <q-btn :to="{name: 'buy'}"  size="lg" dense flat>
-            To Buy
-        </q-btn>
-        </div>
+<style scoped>
+.main-menu-bar-1{
+  border:none;
+  background: none;
+}
+.home-link, .home-link:visited, .home-link:hover, .home-link:active {
+  color: initial;
+}
+</style>
 
-        <q-space />
-
-        <div class="q-pl-sm q-gutter-sm row items-center no-wrap">
-        <q-btn dense flat>
-            <div class="row items-center no-wrap">
-            Rent/Sell Your Property
-            <q-icon name="arrow_drop_down" size="16px" style="margin-left: -2px" />
-            </div>
-            <q-menu auto-close>
-            <q-list dense style="min-width: 100px">
-                <q-item clickable class="GL__menu-link">
-                    <q-item-section>Rent new property</q-item-section>
-                </q-item>
-                <q-item clickable class="GL__menu-link">
-                    <q-item-section>Sell new property</q-item-section>
-                </q-item>
-            </q-list>
-            </q-menu>
-        </q-btn>
-
-        <q-space />
-        <q-space />
-
-        <q-btn v-if="!auth.isLogged" :to="{name: 'login'}"  dense flat>
-            Sign In
-        </q-btn>
-
-        <q-btn v-else dense flat no-wrap>
-            <q-avatar rounded size="20px">
-                <img src="https://cdn.quasar.dev/img/avatar3.jpg">
-            </q-avatar>
-            &nbsp;
-            {{useAuthStore().authUser.name}}
-            <q-icon name="arrow_drop_down" size="16px" />
-
-            <q-menu auto-close>
-            <q-list dense>
-                <q-item clickable :to="{name:'user'}" class="GL__menu-link">
-                    <q-item-section>Your profile</q-item-section>
-                </q-item>
-                <q-item clickable class="GL__menu-link">
-                    <q-item-section>Settings</q-item-section>
-                </q-item>
-                <q-item v-on:click="doLogout()" clickable class="GL__menu-link">
-                    <q-item-section>Logout</q-item-section>
-                </q-item>
-            </q-list>
-            </q-menu>
-        </q-btn>
-        </div>
-    </q-toolbar>
-
-    </q-header>
-  </template>
-  
 <script setup>
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "vue-router";
-
-const auth = useAuthStore()
 const router = useRouter()
 
+const items = [
+    {
+        label: 'BUY',
+        icon: 'pi pi-fw pi-tag',
+        command: ()=>{
+            router.push({name: 'buy'})
+        }
+    },
+    {
+        label: 'RENT',
+        icon: 'pi pi-fw pi-calendar',
+        command: ()=>{
+            router.push({name: 'rent'})
+        }
+    },
+]
+
+const profileItems = [
+    {
+        label: 'Your profile',
+        icon: 'pi pi-refresh',
+        command: ()=>{
+            router.push({name: 'user'})
+        }
+    },
+    {
+        label: 'Logout',
+        icon: 'pi pi-times',
+        command: ()=>{
+            doLogout()
+        }
+    },
+];
+
+
+const auth = useAuthStore()
 //logout function
 const doLogout = () => {
     auth.logout().then(()=>{

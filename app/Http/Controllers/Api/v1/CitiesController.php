@@ -83,7 +83,7 @@ class CitiesController extends Controller
 
         return CityResource::collection($cities)
             ->additional(['meta' => [
-                'fields' => $public_fields
+                'public_fields' => $public_fields
             ]])
             ->response()
             ->setStatusCode(Response::HTTP_OK)

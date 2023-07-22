@@ -1,8 +1,7 @@
 <template>
-
-    <q-page padding>
+    <div class="layout-content-inner surface-section">
         <h2>Home</h2>
-    </q-page>
+    </div>
 
 </template>
 

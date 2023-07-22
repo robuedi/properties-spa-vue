@@ -48,7 +48,7 @@ class CountriesController extends Controller
 
         return CountryResource::collection($countries)
                 ->additional(['meta' => [
-                    'fields' => $public_fields
+                    'public_fields' => $public_fields
                 ]])
                 ->response()
                 ->setStatusCode(Response::HTTP_OK)

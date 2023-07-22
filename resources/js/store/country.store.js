@@ -10,17 +10,10 @@ export const useCountryStore = defineStore("country",{
         countries: (state) => state.countries_,
     },
     actions: {
-        async getAll(options = {}) {
-            let defaultOptions = {
-                where: {},
-                select: ['id','name']
-            }
-
+        async getAll(country = Country.select('id','name')) {
             this.apiState = Country.state.LOADING
             return new Promise((resolve, reject)=>{
-                Country
-                .where(options.where ?? defaultOptions.where)
-                .select(...(options.select ?? defaultOptions.select))
+                country
                 .get()
                 .then((response)=>{
                     this.countries_ = response.data

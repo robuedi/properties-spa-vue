@@ -1,28 +1,51 @@
 <template>
-    <q-form @submit="doLogin">
-        <q-card class="q-pa-md shadow-2 rounded-card" bordered style="width: 25rem; max-width: 100vw;">
-            <q-card-section class="text-center">
-                <div class="text-grey-9 text-h5 text-weight-bold">Register</div>
-            </q-card-section>
-            <q-card-section class="q-gutter-md"> 
-                <q-input v-bind="name" :debounce="5000" :error-message="errors.name" :error="!!errors.name" label="Name" />
-                <q-input v-bind="email" :debounce="5000" autocomplete="email" :error-message="errors.email" :error="!!errors.email" label="Email" />
-                <q-input v-bind="password" :debounce="5000" autocomplete="new-password" :error-message="errors.password" :error="!!errors.password" type="password" label="Password" />
-                <q-input v-bind="password_confirmation" :debounce="5000" autocomplete="new-password" :error-message="errors.password_confirmation" :error="!!errors.password_confirmation" type="password" label="Confirm Password" />
-            </q-card-section>
-            <q-card-section v-if="errors?.general">
-                <span  class="text-red">{{errors?.general}}</span>
-            </q-card-section>
-            <q-card-section>
-                <q-btn color="primary" class="full-width" rounded type="submit" label="Register" />
-            </q-card-section>
-            <q-card-section class="text-center" v-if="!props.hideLoginLink">
-                <span class="text-grey-8">Already having an account? 
-                    <router-link class="text-dark text-weight-bold" style="text-decoration: none" to="/login">Login</router-link>
-                </span>
-            </q-card-section>
-        </q-card>
-    </q-form>
+    <Card style="width: 25em">
+        <template #title> 
+            Register 
+        </template>
+        <template #content>
+            <form class="mt-3">
+                <div class="mb-2">
+                    <InputText placeholder="Name" class="w-full" id="value" v-bind="name" type="text" name="name" :class="{ 'p-invalid': !!errors.name }" aria-describedby="text-error"  />
+                    <small class="p-error" id="text-error">{{ errors.name || '&nbsp;' }}</small>
+                </div>
+                <div class="mb-2">
+                    <InputText placeholder="Email" class="w-full" id="value" v-bind="email" type="text" name="email" :class="{ 'p-invalid': !!errors.email }" aria-describedby="text-error"  />
+                    <small class="p-error" id="text-error">{{ errors.email || '&nbsp;' }}</small>
+                </div>
+                <div class="mb-2">
+                    <Password  v-bind="password" inputClass="w-full" placeholder="Password">
+                        <template #header>
+                            <h6>Pick a password</h6>
+                        </template>
+                        <template #footer>
+                            <Divider />
+                            <p class="mt-2">Suggestions</p>
+                            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                <li>At least one lowercase</li>
+                                <li>At least one uppercase</li>
+                                <li>At least one numeric</li>
+                                <li>Minimum 8 characters</li>
+                            </ul>
+                        </template>
+                    </Password>
+                    <small class="p-error" id="text-error">{{ errors.password || '&nbsp;' }}</small>
+                </div>
+                <div class="mb-2">
+                    <Password :feedback="false"  v-bind="password_confirmation" inputClass="w-full" placeholder="Password Confirmation"/>
+                    <small class="p-error" id="text-error">{{ errors.password_confirmation || '&nbsp;' }}</small>
+                </div>
+            </form>
+            <InlineMessage v-if="errors?.general" severity="warn">{{errors?.general}}</InlineMessage>
+        </template>
+        <template #footer>
+            <Button icon="pi pi-user" @click="doRegister" class="w-full " label="Register" />
+            <p class="text-center mt-2" v-if="!props.hideLoginLink">
+                Already having an account?  
+                <router-link class="text-dark text-weight-bold" style="text-decoration: none" :to="{name: 'login'}"><strong>Login</strong></router-link>
+            </p>
+        </template>
+    </Card>
 </template>
 
 <script setup>
@@ -59,7 +82,7 @@ const password_confirmation = defineComponentBinds('password_confirmation');
 
 //do the registration
 const emit = defineEmits(['registered'])
-const doLogin = handleSubmit((values, { setErrors, resetForm }) => {
+const doRegister = handleSubmit((values, { setErrors, resetForm }) => {
   auth.register(values)
     .then(() => {
         resetForm()

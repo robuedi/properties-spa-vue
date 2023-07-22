@@ -1,7 +1,7 @@
 <template>
-    <q-page class="flex flex-center bg-grey-2">
+    <div class="px-4 py-8 md:px-6 lg:px-8 flex justify-content-center align-items-center">
         <LoginForm v-on:loggedIn="goProfile()" />
-    </q-page >
+    </div>
 </template>
 
 <script setup>

@@ -10,10 +10,10 @@ export const useListingTypeStore = defineStore("listingType",{
         listingTypes: (state) => state.listingTypes_,
     },
     actions: {
-        async getAll() {
+        async getAll(listingType = ListingType.select('id','name')) {
             this.apiState = ListingType.state.LOADING
             return new Promise((resolve, reject)=>{
-                ListingType
+                listingType
                 .get()
                 .then((response)=>{
                     this.listingTypes_ = response.data

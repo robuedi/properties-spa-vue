@@ -35,7 +35,7 @@ class PropertyTypesController extends Controller
         $public_fields = ['id', 'name'];
         return PropertyTypeResource::collection(PropertyType::select($public_fields)->get())
                 ->additional(['meta' => [
-                    'fields' => $public_fields
+                    'public_fields' => $public_fields
                 ]])
                 ->response()
                 ->setStatusCode(Response::HTTP_OK)

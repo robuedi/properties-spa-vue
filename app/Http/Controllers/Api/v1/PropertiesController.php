@@ -48,7 +48,7 @@ class PropertiesController extends Controller
 
         return PropertyResource::collection($properties)
                 ->additional(['meta' => [
-                    'fields' => $public_fields
+                    'public_fields' => $public_fields
                 ]])
                 ->response()
                 ->setStatusCode(Response::HTTP_OK);

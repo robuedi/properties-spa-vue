@@ -1,18 +1,18 @@
 <template>
-    <q-page class="flex flex-center bg-grey-2">
+    <div class="px-4 py-8 md:px-6 lg:px-8 flex justify-content-center align-items-center">
         <RegisterForm v-on:registered="goLogin()" />
-    </q-page >
+    </div>
 </template>
 
 <script setup>
 import RegisterForm from '@/components/forms/RegisterForm.vue';
-import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
+import { useToast } from "primevue/usetoast";
 
 const router = useRouter()
 const toast = useToast();
 const goLogin = () => {
-    toast.success("Successful registration, please login.");
+    toast.add({ severity: 'success', summary: 'Successful registration, ', detail: 'Please login', life: 3000 });
     router.push({name: 'login'})
 }
 </script>

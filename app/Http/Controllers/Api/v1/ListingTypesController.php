@@ -35,7 +35,7 @@ class ListingTypesController extends Controller
         $public_fields = ['id', 'name'];
         return ListingTypeResource::collection(ListingType::select($public_fields)->get())
             ->additional(['meta' => [
-                'fields' => $public_fields
+                'public_fields' => $public_fields
             ]])
             ->response()
             ->setStatusCode(Response::HTTP_OK)

@@ -2,6 +2,7 @@
   <DefaultLayout>
     <router-view />
   </DefaultLayout>
+  <Toast position="bottom-right" />
 </template>
 
 <script setup>
@@ -13,5 +14,6 @@ const auth = useAuthStore()
 onMounted(() => {
     auth.refreshToken()
 })
+
 </script>
 

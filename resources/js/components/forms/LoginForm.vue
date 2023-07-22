@@ -1,26 +1,29 @@
 <template>
-    <q-form @submit="doLogin">
-        <q-card class="q-pa-md shadow-2" bordered style="width: 25rem; max-width: 100vw;">
-            <q-card-section class="text-center">
-                <div class="text-grey-9 text-h5 text-weight-bold">Sign in</div>
-            </q-card-section>
-            <q-card-section class="q-gutter-md"> 
-                <q-input v-bind="email" :debounce="5000" name="email" :error-message="errors.email" :error="!!errors.email" label="Email" />
-                <q-input v-bind="password" :debounce="5000" name="current-password" :error-message="errors.password" :error="!!errors.password" type="password" label="Password" />
-            </q-card-section>
-            <q-card-section v-if="errors?.general">
-                <span  class="text-red">{{errors?.general}}</span>
-            </q-card-section>
-            <q-card-section>
-                <q-btn color="primary" class="full-width" rounded type="submit" label="Login" />
-            </q-card-section>
-            <q-card-section class="text-center" v-if="!props.hideRegisterLink">
-                <span class="text-grey-8">Don't have an account yet? 
-                    <router-link class="text-dark text-weight-bold" style="text-decoration: none" to="/register">Register</router-link>
-                </span>
-            </q-card-section>
-        </q-card>
-    </q-form>
+    <Card style="width: 25em">
+        <template #title> 
+            Sign in 
+        </template>
+        <template #content>
+            <form class="mt-3">
+                <div class="mb-2">
+                    <InputText placeholder="Email" class="w-full" id="value" v-bind="email" type="text" name="email" :class="{ 'p-invalid': !!errors.email }" aria-describedby="text-error"  />
+                    <small class="p-error" id="text-error">{{ errors.email || '&nbsp;' }}</small>
+                </div>
+                <div class="mb-2">
+                    <Password :feedback="false"  v-bind="password" inputClass="w-full" placeholder="Password"/>
+                    <small class="p-error" id="text-error">{{ errors.password || '&nbsp;' }}</small>
+                </div>
+            </form>
+            <InlineMessage v-if="errors?.general" severity="warn">{{errors?.general}}</InlineMessage>
+        </template>
+        <template #footer>
+            <Button icon="pi pi-user" @click="doLogin" class="w-full " label="Login" />
+            <p class="text-center mt-2" v-if="!props.hideRegisterLink">
+                Don't have an account yet? 
+                <router-link class="text-dark text-weight-bold" style="text-decoration: none" to="/register"><strong>Register</strong></router-link>
+            </p>
+        </template>
+    </Card>
 </template>
 
 <script setup>

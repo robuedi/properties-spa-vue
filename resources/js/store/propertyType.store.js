@@ -10,10 +10,10 @@ export const usePropertyTypeStore = defineStore("propertyType",{
         propertyTypes: (state) => state.propertyTypes_,
     },
     actions: {
-        async getAll() {
+        async getAll(propertyType = PropertyType.select('id', 'name')) {
             this.apiState = PropertyType.state.LOADING
             return new Promise((resolve, reject)=>{
-                PropertyType
+                propertyType
                 .get()
                 .then((response)=>{
                     this.propertyTypes_ = response.data

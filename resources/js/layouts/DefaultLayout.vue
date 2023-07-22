@@ -1,18 +1,18 @@
 <template>
-    <q-layout class="bg-grey-2" view="hHh lpR fFf">
+    <div class="wrapper p-component">
         <DefaultHeader/>
-      
-        <q-page-container>
-            <slot></slot>
-        </q-page-container>
+
+        <main class="page-main" :class="{'p-6': !route?.meta?.plainPageContainer}">
+            <slot ></slot>
+        </main>
+    </div>
+</template>
   
-    </q-layout>
-  </template>
-  
-  <script setup>
-  
-  import DefaultHeader from '@/layouts/headers/DefaultHeader.vue'
-  
-  </script>
+<script setup>
+import DefaultHeader from '@/layouts/headers/DefaultHeader.vue'
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+</script>
   
   

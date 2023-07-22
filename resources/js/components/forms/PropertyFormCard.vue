@@ -1,44 +1,45 @@
 <template>
-    <q-card style="max-width: 1000px;" flat bordered>
-        <q-card-section>
-            <div class="text-h5 q-mt-sm q-mb-lg">Add Property</div>
-            <div class="q-mt-lg" >
-                <q-form class="q-mt-lg " >
-                    <div class="row q-col-gutter-lg">
-                        <div class="col q-gutter-md">
-                            <q-input v-model="property.name" label="Name" />
+    <Card style="width: 50em">
+        <template #title> 
+            Add Property
+        </template>
+        <template #content>
+            <div class="flex flex-column md:flex-row">
+                <div class="flex flex-column gap-3 w-full md:w-5 py-6">
+                    <InputText placeholder="Name" id="name" v-model="property.name" type="text" />
 
-                            <PropertyTypeInput v-model="property.propertyType"/>
+                    <!-- <PropertyTypeInput v-model="property.propertyType"/>
 
-                            <ListingTypeInput v-model="property.listingType"/>
+                    <ListingTypeInput v-model="property.listingType"/> -->
 
-                            <q-input v-model="property.description" filled type="textarea" label="Description" />
-
-                            <q-input v-model="property.bedrooms" label="Bedrooms" />
-
-                            <q-input v-model="property.bathrooms" label="Bathrooms" />
-                        </div>
-                        <div class="col q-gutter-md">
-                            <div class="text-h6 q-mt-lg-xs" style="margin-bottom: -16px;">Address</div>
-
-                            <AddressForm />
-                        </div>
-                    </div>
-                </q-form>
+                    <Textarea placeholder="Description" v-model="property.description" rows="5" cols="30" />
+                    
+                    <InputText placeholder="Bedrooms"  id="bedrooms" v-model="property.bedrooms" type="text"  />
+                    
+                    <InputText placeholder="Bathrooms" id="name" v-model="property.bathrooms" type="text"/>
+                </div>
+                <div class="w-full md:w-1">
+                    <Divider layout="vertical" class="hidden md:flex" />
+                    <Divider layout="horizontal" class="flex md:hidden" align="center" />
+                </div>
+                <div class="flex flex-column gap-3 w-full md:w-5 py-1">
+                    <p class="mt-0 mb-0 font-bold text-xl">Address</p>
+                    <AddressForm />
+                </div>
             </div>
-        </q-card-section>
 
-        <q-card-actions align="right">
+        </template>
+        <!-- <template #footer>
             <q-btn  color="secondary"  rounded label="Save"></q-btn>
-        </q-card-actions>
-    </q-card>
+        </template> -->
+    </Card>
 </template>
 
 <script setup>
 import {reactive, watch } from "vue";
 import AddressForm from '@/components/forms/AddressForm.vue';
-import PropertyTypeInput from '@/components/inputs/PropertyTypeInput.vue';
-import ListingTypeInput from '@/components/inputs/ListingTypeInput.vue';
+// import PropertyTypeInput from '@/components/inputs/PropertyTypeInput.vue';
+// import ListingTypeInput from '@/components/inputs/ListingTypeInput.vue';
 
 
 const property = reactive({

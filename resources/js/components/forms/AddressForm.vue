@@ -3,11 +3,17 @@
 
         <CityInput v-model="address.city" v-if="address.country" :country-id="address.country.id"/>
 
-        <q-input v-if="address.city" v-model="address.streetName" label="Street Name" />
+        <div  v-if="address.city"  class="mb-2">
+            <InputText placeholder="Street Name" class="w-full" id="value" v-bind="address.streetName" type="text" name="street_name"   />
+        </div>           
 
-        <q-input v-if="address.city" v-model="address.streetNr" label="Street Number" />
+        <div  v-if="address.city"  class="mb-2">
+            <InputText placeholder="Street Number" class="w-full" id="value" v-bind="address.streetNr" type="text" name="street_nr" />
+        </div>   
 
-        <q-input v-if="address.city" v-model="address.postcode" label="Postcode" />
+        <div  v-if="address.city"  class="mb-2">
+            <InputText placeholder="Postcode" class="w-full" id="value" v-bind="address.postcode" type="text" name="postcode" />
+        </div>
 </template>
 
 <script setup>
