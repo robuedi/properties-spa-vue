@@ -1,10 +1,7 @@
 <template>
-    <div>
-        <span class="grey-txt">Type:</span>
-        <q-radio class="q-pr-lg" v-for="propertyType in propertyTypeStore.propertyTypes" v-model="propertyTypeId" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" :val="propertyType.id" :label="propertyType.name.capitalize()" />
-    </div>
-
-    <!-- <q-select v-model="propertyTypeId" option-value="id"  option-label="name" :options="propertyTypeStore.propertyTypes" label="Property Type" :clearable="true" ></q-select> -->
+  <div class="flex items-center">
+    <span class="mr-6">Type</span> <SelectButton id="item" v-model="propertyTypeId"  :options="propertyTypeStore.propertyTypes" optionValue="id" optionLabel="name" />
+  </div>
 </template>
 
 <script setup>

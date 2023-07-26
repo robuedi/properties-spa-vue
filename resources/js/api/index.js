@@ -11,7 +11,7 @@ window.axios.defaults.baseURL = `${import.meta.env.VITE_API_URL}`
 window.axios.defaults.withCredentials = true
 
 import { useAuthStore } from "@/store/auth.store";
-import { useToast } from "vue-toastification";
+import { useToast } from "primevue/usetoast";
 
 //set interceptors
 window.axios.interceptors.response.use(
@@ -31,7 +31,7 @@ window.axios.interceptors.response.use(
             }
 
             const toast = useToast()
-            toast.warning("You are unauthenticated, please login to continue.");
+            toast.add({ severity: 'warning', summary: 'You are unauthenticated', detail: 'Please login', life: 3000 });
             router.push({name: 'login'})
             return Promise.reject(error)
         }

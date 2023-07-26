@@ -1,6 +1,6 @@
 <template>
-    <header class="surface-overlay py-2 px-6 border-bottom-1 surface-border relative lg:static">
-        <Menubar class="main-menu-bar-1 text-xl font-bold	" :model="items">
+    <header class="py-1 bg-white md:px-10 lg:px-38 xl:px-48 border-b-1 border-solid border-surface-border relative lg:static">
+        <Menubar class="border-0 bg-transparent text-md font-bold" :model="items">
             <template #start>
                 <Button @click="router.push({name: 'home'})" style="height: 50px; width:50px" class="mr-4" icon="pi pi-home" severity="primary" rounded size="large"  aria-label="home" />
             </template>
@@ -11,16 +11,6 @@
         </Menubar>
     </header>
 </template>
-
-<style scoped>
-.main-menu-bar-1{
-  border:none;
-  background: none;
-}
-.home-link, .home-link:visited, .home-link:hover, .home-link:active {
-  color: initial;
-}
-</style>
 
 <script setup>
 import { useAuthStore } from "@/store/auth.store";

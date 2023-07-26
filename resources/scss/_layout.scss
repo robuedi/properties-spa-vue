@@ -1,23 +1,4 @@
 
-
 html {
     font-size: 14px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    body{
-        margin: 0;
-
-        .wrapper{
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        
-            .page-main {
-                flex-grow: 1;
-                background-color: var(--surface-ground);
-
-            }
-        }
-    }
 }

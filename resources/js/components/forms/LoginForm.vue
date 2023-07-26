@@ -1,20 +1,18 @@
 <template>
-    <Card style="width: 25em">
+    <Card >
         <template #title> 
             Sign in 
         </template>
         <template #content>
-            <form class="mt-3">
-                <div class="mb-2">
+            <BasicForm class="mt-3">
+                <ErrorFeedback :error="errors.email">
                     <InputText placeholder="Email" class="w-full" id="value" v-bind="email" type="text" name="email" :class="{ 'p-invalid': !!errors.email }" aria-describedby="text-error"  />
-                    <small class="p-error" id="text-error">{{ errors.email || '&nbsp;' }}</small>
-                </div>
-                <div class="mb-2">
-                    <Password :feedback="false"  v-bind="password" inputClass="w-full" placeholder="Password"/>
-                    <small class="p-error" id="text-error">{{ errors.password || '&nbsp;' }}</small>
-                </div>
-            </form>
-            <InlineMessage v-if="errors?.general" severity="warn">{{errors?.general}}</InlineMessage>
+                </ErrorFeedback>
+                <ErrorFeedback :error="errors.password">
+                    <Password :feedback="false"  v-bind="password" :class="{ 'p-invalid': !!errors.password }" inputClass="w-full" placeholder="Password"/>
+                </ErrorFeedback>
+                <InlineMessage v-if="errors?.general" severity="warn">{{errors?.general}}</InlineMessage>
+            </BasicForm>
         </template>
         <template #footer>
             <Button icon="pi pi-user" @click="doLogin" class="w-full " label="Login" />

@@ -1,10 +1,3 @@
 <template>
-    <div class="layout-content-inner surface-section">
-        <h2>Home</h2>
-    </div>
-
+    <h2>Home</h2>
 </template>
-
-<script setup>
-
-</script>

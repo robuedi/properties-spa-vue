@@ -1,19 +1,28 @@
 <template>
-        <CountryInput v-model="address.country" />
+    <Card >
+        <template #title> 
+            Address
+        </template>
+        <template #content>
+            <BasicForm>
+                <CountryInput v-model="address.country" />
 
-        <CityInput v-model="address.city" v-if="address.country" :country-id="address.country.id"/>
+                <CityInput v-model="address.city" v-if="address.country" :country-id="address.country.id"/>
 
-        <div  v-if="address.city"  class="mb-2">
-            <InputText placeholder="Street Name" class="w-full" id="value" v-bind="address.streetName" type="text" name="street_name"   />
-        </div>           
+                <div  v-if="address.city"  class="mb-2">
+                    <InputText placeholder="Street Name" class="w-full" id="value" v-bind="address.streetName" type="text" name="street_name"   />
+                </div>           
 
-        <div  v-if="address.city"  class="mb-2">
-            <InputText placeholder="Street Number" class="w-full" id="value" v-bind="address.streetNr" type="text" name="street_nr" />
-        </div>   
+                <div  v-if="address.city"  class="mb-2">
+                    <InputText placeholder="Street Number" class="w-full" id="value" v-bind="address.streetNr" type="text" name="street_nr" />
+                </div>   
 
-        <div  v-if="address.city"  class="mb-2">
-            <InputText placeholder="Postcode" class="w-full" id="value" v-bind="address.postcode" type="text" name="postcode" />
-        </div>
+                <div  v-if="address.city"  class="mb-2">
+                    <InputText placeholder="Postcode" class="w-full" id="value" v-bind="address.postcode" type="text" name="postcode" />
+                </div>
+            </BasicForm>
+        </template>
+    </Card>
 </template>
 
 <script setup>

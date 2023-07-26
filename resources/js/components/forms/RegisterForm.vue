@@ -4,16 +4,14 @@
             Register 
         </template>
         <template #content>
-            <form class="mt-3">
-                <div class="mb-2">
+            <BasicForm class="mt-3">
+                <ErrorFeedback :error="errors.name">
                     <InputText placeholder="Name" class="w-full" id="value" v-bind="name" type="text" name="name" :class="{ 'p-invalid': !!errors.name }" aria-describedby="text-error"  />
-                    <small class="p-error" id="text-error">{{ errors.name || '&nbsp;' }}</small>
-                </div>
-                <div class="mb-2">
+                </ErrorFeedback>
+                <ErrorFeedback :error="errors.email">
                     <InputText placeholder="Email" class="w-full" id="value" v-bind="email" type="text" name="email" :class="{ 'p-invalid': !!errors.email }" aria-describedby="text-error"  />
-                    <small class="p-error" id="text-error">{{ errors.email || '&nbsp;' }}</small>
-                </div>
-                <div class="mb-2">
+                </ErrorFeedback>
+                <ErrorFeedback :error="errors.password">
                     <Password  v-bind="password" inputClass="w-full" placeholder="Password">
                         <template #header>
                             <h6>Pick a password</h6>
@@ -29,14 +27,12 @@
                             </ul>
                         </template>
                     </Password>
-                    <small class="p-error" id="text-error">{{ errors.password || '&nbsp;' }}</small>
-                </div>
-                <div class="mb-2">
+                </ErrorFeedback>
+                <ErrorFeedback :error="errors.password_confirmation">
                     <Password :feedback="false"  v-bind="password_confirmation" inputClass="w-full" placeholder="Password Confirmation"/>
-                    <small class="p-error" id="text-error">{{ errors.password_confirmation || '&nbsp;' }}</small>
-                </div>
-            </form>
-            <InlineMessage v-if="errors?.general" severity="warn">{{errors?.general}}</InlineMessage>
+                </ErrorFeedback>
+                <InlineMessage v-if="errors?.general" severity="warn">{{errors?.general}}</InlineMessage>
+            </BasicForm>
         </template>
         <template #footer>
             <Button icon="pi pi-user" @click="doRegister" class="w-full " label="Register" />

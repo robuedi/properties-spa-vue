@@ -1,8 +1,9 @@
 <template>
-    <div class="wrapper p-component">
+    <div class="flex flex-col min-h-screen bg-surface-ground p-component">
         <DefaultHeader/>
 
-        <main class="page-main" :class="{'p-6': !route?.meta?.plainPageContainer}">
+        <main class="grow  flex flex-col p-8 md:mx-10 lg:mx-38 xl:mx-48" >
+        <!-- :class="{'': !route?.meta?.plainPageContainer}"> -->
             <slot ></slot>
         </main>
     </div>
@@ -10,9 +11,6 @@
   
 <script setup>
 import DefaultHeader from '@/layouts/headers/DefaultHeader.vue'
-import { useRoute } from "vue-router";
-
-const route = useRoute();
 </script>
   
   
