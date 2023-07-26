@@ -5,37 +5,42 @@
         </template>
         <template #content>
             <div class="flex flex-col gap-3 ">
-                <InputText placeholder="Name" id="name" v-model="property.name" type="text" />
+                <InputText placeholder="Name" id="name" :value="modelValue.name" @input="updateInput('name', $event.target.value)" type="text" />
 
-                <PropertyTypeInput v-model="property.propertyType"/>
+                <PropertyTypeInput :modelValue="modelValue.propertyType" @update:modelValue="updateInput('propertyType', $event)" />
 
-                <ListingTypeInput v-model="property.listingType"/>
+                <ListingTypeInput :modelValue="modelValue.listingType"  @update:modelValue="updateInput('listingType', $event)" />
 
-                <Textarea placeholder="Description" v-model="property.description" rows="5" cols="30" />
+                <Textarea placeholder="Description" :value="modelValue.description" @input="updateInput('description', $event.target.value)" rows="5" cols="30" />
                 
-                <InputText placeholder="Bedrooms"  id="bedrooms" v-model="property.bedrooms" type="text"  />
+                <InputNumber placeholder="Number of Bedrooms"  id="bedrooms" :modelValue="modelValue.bedrooms" @input="updateInput('bedrooms', $event.value)" type="text"  />
                 
-                <InputText placeholder="Bathrooms" id="name" v-model="property.bathrooms" type="text"/>
+                <InputNumber placeholder="Number of Bathrooms" id="name" :modelValue="modelValue.bathrooms" @input="updateInput('bathrooms', $event.value)" type="text"/>
             </div>
         </template>
-        <!-- <template #footer>
-            <q-btn  color="secondary"  rounded label="Save"></q-btn>
-        </template> -->
     </Card>
 </template>
 
 <script setup>
-import {reactive, watch } from "vue";
 import PropertyTypeInput from '@/components/inputs/PropertyTypeInput.vue';
 import ListingTypeInput from '@/components/inputs/ListingTypeInput.vue';
 
+const { modelValue } = defineProps(['modelValue']);
 
-const property = reactive({
-    name: null,
-    description: null,
-    bedrooms: null,
-    bathrooms: null,
-    listingType: null,
-    propertyType: null
-})
+const getValues = ()=>{
+    //pass all the expected columns
+    return Object.keys(modelValue).length ? modelValue : {
+        name: null,
+        description: null,
+        bedrooms: null,
+        bathrooms: null,
+        listingType: null,
+        propertyType: null
+    }
+}
+
+const emit = defineEmits();
+const updateInput = (prop, value) => {
+  emit('update:modelValue', { ...getValues(), [prop]: value });
+};
 </script>

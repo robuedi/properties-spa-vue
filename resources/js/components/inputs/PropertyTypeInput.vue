@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center">
-    <span class="mr-6">Type</span> <SelectButton id="item" v-model="propertyTypeId"  :options="propertyTypeStore.propertyTypes" optionValue="id" optionLabel="name" />
+    <span class="mr-6">Type</span> <SelectButton id="item" v-model="propertyTypeId" :options="propertyTypeStore.propertyTypes" optionValue="id" optionLabel="name" />
   </div>
 </template>
 

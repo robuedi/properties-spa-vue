@@ -42,6 +42,7 @@ import TabMenu from 'primevue/tabmenu';
 import Textarea from 'primevue/textarea';
 import Dropdown from 'primevue/dropdown';
 import SelectButton from 'primevue/selectbutton';
+import InputNumber from 'primevue/inputnumber';
 
 //custom 
 import ErrorFeedback from '@/components/inputs/extras/ErrorFeedback.vue';
@@ -57,6 +58,7 @@ createApp(App)
 .component('Avatar', Avatar)
 .component('Menubar', Menubar)
 .component('InputText', InputText)
+.component('InputNumber', InputNumber)
 .component('SplitButton', SplitButton)
 .component('Card', Card)
 .component('Password', Password)

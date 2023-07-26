@@ -8,6 +8,8 @@ export const useListingTypeStore = defineStore("listingType",{
     }),
     getters: {
         listingTypes: (state) => state.listingTypes_,
+        rentItem: (state) => state.listingTypes_.find(item => item.name.toLowerCase() === 'rent'),
+        sellItem: (state) => state.listingTypes_.find(item => item.name.toLowerCase() === 'sell')
     },
     actions: {
         async getAll(listingType = ListingType.select('id','name')) {

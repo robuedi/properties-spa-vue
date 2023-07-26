@@ -18,7 +18,7 @@
             <Button icon="pi pi-user" @click="doLogin" class="w-full " label="Login" />
             <p class="text-center mt-2" v-if="!props.hideRegisterLink">
                 Don't have an account yet? 
-                <router-link class="text-dark text-weight-bold" style="text-decoration: none" to="/register"><strong>Register</strong></router-link>
+                <router-link class="text-dark text-weight-bold" style="text-decoration: none" :to="{name: 'register'}"><strong>Register</strong></router-link>
             </p>
         </template>
     </Card>

@@ -10,7 +10,7 @@ import { useCityStore } from "@/store/city.store";
 //set the model
 const props = defineProps({
   modelValue: {
-    type: [Object],
+    type: [Number],
     required: false,
     default: null,
   },
