@@ -9,6 +9,7 @@
                 <InputNumber placeholder="Monthly Price" id="price_montyly" type="text"  :modelValue="modelValue.price_monthly" @input="updateInput('price_monthly', $event.value)" />
                 <InputNumber placeholder="Deposit" id="deposit" type="text"  :modelValue="modelValue.deposit" @input="updateInput('deposit', $event.value)" />
                 <InputNumber placeholder="Minimum Tenancy" id="minimum_tenancy" type="text" :modelValue="modelValue.minimum_tenancy" @input="updateInput('minimum_tenancy', $event.value)"  />
+                <InputSwitch2 label="Pets Allowed" :modelValue="modelValue.pets_allowed" @update:modelValue="updateInput('pets_allowed', $event)"  />
             </BasicForm>
         </template>
     </Card>
@@ -24,6 +25,7 @@ const getValues = ()=>{
         price_monthly: null,
         deposit: null,
         minimum_tenancy: null,
+        pets_allowed: null
     }
 }
 

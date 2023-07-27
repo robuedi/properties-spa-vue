@@ -36,14 +36,15 @@ import Password from 'primevue/password'
 import Divider from 'primevue/Divider'
 import Listbox from 'primevue/listbox'
 import InlineMessage from 'primevue/inlinemessage'
-import ToastService from 'primevue/toastservice';
+import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
-import TabMenu from 'primevue/tabmenu';
-import Textarea from 'primevue/textarea';
-import Dropdown from 'primevue/dropdown';
-import SelectButton from 'primevue/selectbutton';
-import InputNumber from 'primevue/inputnumber';
-import Breadcrumb from 'primevue/breadcrumb';
+import TabMenu from 'primevue/tabmenu'
+import Textarea from 'primevue/textarea'
+import Dropdown from 'primevue/dropdown'
+import SelectButton from 'primevue/selectbutton'
+import InputNumber from 'primevue/inputnumber'
+import Breadcrumb from 'primevue/breadcrumb'
+import InputSwitch2 from '@/components/inputs/InputSwitch2.vue'
 
 //custom 
 import ErrorFeedback from '@/components/inputs/extras/ErrorFeedback.vue';
@@ -71,6 +72,7 @@ createApp(App)
 .component('Dropdown', Dropdown)
 .component('SelectButton', SelectButton)
 .component('Breadcrumb', Breadcrumb)
+.component('InputSwitch2', InputSwitch2)
 .component('Toast', Toast)
 .component('ErrorFeedback', ErrorFeedback)
 .component('BasicForm', BasicForm)

@@ -9,19 +9,15 @@
     </div>
 
     <div class="flex items-start flex-wrap md:flex-nowrap space-y-8 md:space-x-8 md:space-y-0 ">
-        <PropertyForm  :modelValue="property.details" @update:modelValue="updateInput('details', $event)" class="md:basis-1/2  basis-full"/>
+        <PropertyForm  :modelValue="propertyData.property" @update:modelValue="updateInput('property', $event)" class="md:basis-1/2  basis-full"/>
 
         <div class="flex flex-col md:basis-1/2 basis-full space-y-8" >
-            <AddressForm :modelValue="property.address" @update:modelValue="updateInput('address', $event)"  />
-            <RentListingForm v-if="listingStore.rentItem?.id === property.details?.listingType" :modelValue="property.rentListing" @update:modelValue="updateInput('rentListing', $event)"  class="md:basis-1/2  basis-full"/>
-            <SellListing v-if="listingStore.sellItem?.id === property.details?.listingType"  :modelValue="property.sellListing" @update:modelValue="updateInput('sellListing', $event)"  class="md:basis-1/2 basis-full" />
+            <AddressForm :modelValue="propertyData.address" @update:modelValue="updateInput('address', $event)"  />
+            <RentListingForm v-if="listingStore.rentItem?.id === propertyData.property?.listing_type_id" :modelValue="propertyData.rentListing" @update:modelValue="updateInput('rentListing', $event)"  class="md:basis-1/2  basis-full"/>
+            <SellListing v-if="listingStore.sellItem?.id === propertyData.property?.listing_type_id"  :modelValue="propertyData.sellListing" @update:modelValue="updateInput('sellListing', $event)"  class="md:basis-1/2 basis-full" />
         
         </div>
     </div>
-    <!-- <div class="flex items-start flex-wrap md:flex-nowrap mt-8 space-y-8 md:space-x-8 md:space-y-0 ">
-        <div v-if="[listingStore.sellItem?.id, listingStore.rentItem?.id].indexOf(property.details?.listingType) > -1" class="md:basis-1/2 basis-full" >&nbsp;</div>
-    </div> -->
-
 </template>
 
 <script setup>
@@ -57,8 +53,8 @@ const breadcrumbItems = ref([
 ]);
 
 //here we store the property data
-const property = reactive({
-    details: {},
+const propertyData = reactive({
+    property: {},
     address: {},
     rentListing: {},
     sellListing: {},
@@ -67,14 +63,19 @@ const property = reactive({
 //set the data
 const updateInput = (location, data)=>{
     for(let key in data){
-        property[location][key] = data[key]
+        propertyData[location][key] = data[key]
     }
 }
 
 //save the property
 const propertyStore = usePropertyStore()
 const saveProperty = () => {
-    propertyStore.create({'testes':'testset'})
+    let data  = {...propertyData}
+    delete data.property
+    propertyStore.store({
+        ...propertyData.property, 
+        ...data
+    })
 }
 
 </script>

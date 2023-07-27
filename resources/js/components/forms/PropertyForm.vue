@@ -5,11 +5,13 @@
         </template>
         <template #content>
             <div class="flex flex-col gap-3 ">
+                <InputSwitch2 label="Is Public" :modelValue="modelValue.is_public" @update:modelValue="updateInput('is_public', $event)"  />
+
                 <InputText placeholder="Name" id="name" :value="modelValue.name" @input="updateInput('name', $event.target.value)" type="text" />
 
-                <PropertyTypeInput :modelValue="modelValue.propertyType" @update:modelValue="updateInput('propertyType', $event)" />
+                <PropertyTypeInput :modelValue="modelValue.property_type_id" @update:modelValue="updateInput('property_type_id', $event)" />
 
-                <ListingTypeInput :modelValue="modelValue.listingType"  @update:modelValue="updateInput('listingType', $event)" />
+                <ListingTypeInput :modelValue="modelValue.listing_type_id"  @update:modelValue="updateInput('listing_type_id', $event)" />
 
                 <Textarea placeholder="Description" :value="modelValue.description" @input="updateInput('description', $event.target.value)" rows="5" cols="30" />
                 
@@ -34,8 +36,9 @@ const getValues = ()=>{
         description: null,
         bedrooms: null,
         bathrooms: null,
-        listingType: null,
-        propertyType: null
+        listing_type_id: null,
+        property_type_id: null,
+        is_public: false
     }
 }
 

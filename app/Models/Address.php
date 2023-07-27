@@ -13,15 +13,17 @@ class Address extends Model
 
     protected $table = 'addresses';
 
+    protected $fillable = ['city_id', 'street_nr','street', 'postcode']; 
+
     /**
      * Relationships
      */
     public function property(): HasOne
     {
-        return $this->hasOne(Property::class);
+        return $this->hasOne(Property::class, 'address_id');
     }
 
-    public function address(): BelongsTo
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
     }

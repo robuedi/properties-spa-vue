@@ -12,6 +12,8 @@ class RentListing extends Model
 
     protected $table = 'rent_listings';
 
+    protected $fillable = ['property_id', 'minimum_tenancy','price_weekly', 'price_monthly', 'deposit', 'pets_allowed']; 
+
     /**
      * Relationships
      */

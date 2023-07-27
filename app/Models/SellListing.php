@@ -12,6 +12,8 @@ class SellListing extends Model
 
     protected $table = 'sell_listings';
 
+    protected $fillable = ['price']; 
+
     /**
      * Relationships
      */

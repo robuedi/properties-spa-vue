@@ -34,8 +34,10 @@ Route::prefix('v1')->group(function(){
         });
     });
     
-    
-    Route::apiResource('properties', PropertiesController::class);
+    Route::middleware('auth:sanctum')->group(function(){
+        Route::apiResource('properties', PropertiesController::class);
+    });
+
     Route::get('countries', [CountriesController::class, 'index']);
     Route::get('cities', [CitiesController::class, 'index']);
     Route::get('listing-types', [ListingTypesController::class, 'index']);

@@ -14,6 +14,8 @@ class Property extends Model
 
     protected $table = 'properties';
 
+    protected $fillable = ['owner_id', 'name','property_type_id', 'address_id', 'listing_type_id', 'description', 'bedrooms', 'bathrooms', 'is_public']; 
+
     /**
      * Relationships
      */
@@ -24,12 +26,12 @@ class Property extends Model
 
     public function sellListing(): HasOne
     {
-        return $this->hasOne(RentListing::class);
+        return $this->hasOne(SellListing::class);
     }
 
     public function address(): BelongsTo
     {
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(Address::class, 'address_id');
     }
 
     public function listingType(): BelongsTo
@@ -42,8 +44,8 @@ class Property extends Model
         return $this->belongsTo(PropertyType::class);
     }
 
-    public function user(): BelongsTo
+    public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'owner_id');
     }
 }
