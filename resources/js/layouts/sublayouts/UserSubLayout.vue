@@ -12,7 +12,7 @@ const router = useRouter()
 const items = [
   {
       label: 'Messages',
-      icon: 'pi pi-fw pi-home',
+      icon: 'pi pi-fw pi-inbox',
       class: 'pt-3 	md:pl-16 lg:pl-38 xl:pl-48',
       command: ()=> {
           router.push({name: 'messages'})
@@ -20,7 +20,7 @@ const items = [
   },
   {
       label: 'My Properties',
-      icon: 'pi pi-fw pi-calendar',
+      icon: 'pi pi-fw pi-home',
       class: 'pt-3',
       command: ()=> {
           router.push({name: 'properties'})
@@ -28,23 +28,15 @@ const items = [
   },
   {
       label: 'Saved Properties',
-      icon: 'pi pi-fw pi-pencil',
+      icon: 'pi pi-fw pi-heart',
       class: 'pt-3',
       command: ()=> {
           router.push({name: 'saved-properties'})
       }
   },
   {
-      label: 'Saved Searches',
-      icon: 'pi pi-fw pi-file',
-      class: 'pt-3',
-      command: ()=> {
-          router.push({name: 'saved-searches'})
-      }
-  },
-  {
       label: 'Profile Details',
-      icon: 'pi pi-fw pi-cog',
+      icon: 'pi pi-fw pi-user-edit',
       class: 'pt-3',
       command: () => {
           router.push({name: 'profile-details'})

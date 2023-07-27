@@ -15,6 +15,8 @@
 <script setup>
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "vue-router";
+import { useToast } from "primevue/usetoast";
+
 const router = useRouter()
 
 const items = [
@@ -53,10 +55,12 @@ const profileItems = [
 
 
 const auth = useAuthStore()
+const toast = useToast()
 //logout function
 const doLogout = () => {
     auth.logout().then(()=>{
         router.push({name: 'home'})
+        toast.add({ severity: 'success', summary: 'Successful logout', life: 3000 });
     })
 }
 

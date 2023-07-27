@@ -54,4 +54,10 @@ class PropertiesController extends Controller
                 ->setStatusCode(Response::HTTP_OK);
     }
 
+    public function store(Request $request)
+    {
+
+        //TODO
+        return response([])->setStatusCode(Response::HTTP_CREATED);
+    }
 }

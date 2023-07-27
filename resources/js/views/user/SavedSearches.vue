@@ -1,1 +1,0 @@
-<template>saved searches</template>

@@ -43,6 +43,7 @@ import Textarea from 'primevue/textarea';
 import Dropdown from 'primevue/dropdown';
 import SelectButton from 'primevue/selectbutton';
 import InputNumber from 'primevue/inputnumber';
+import Breadcrumb from 'primevue/breadcrumb';
 
 //custom 
 import ErrorFeedback from '@/components/inputs/extras/ErrorFeedback.vue';
@@ -69,6 +70,7 @@ createApp(App)
 .component('Textarea', Textarea)
 .component('Dropdown', Dropdown)
 .component('SelectButton', SelectButton)
+.component('Breadcrumb', Breadcrumb)
 .component('Toast', Toast)
 .component('ErrorFeedback', ErrorFeedback)
 .component('BasicForm', BasicForm)
