@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('city_id')->index();
+            $table->string('street_name', 255);
             $table->string('street_nr', 255);
-            $table->string('street', 255);
             $table->string('postcode', 255);
             $table->timestamps();
 

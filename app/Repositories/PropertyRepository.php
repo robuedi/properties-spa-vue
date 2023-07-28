@@ -2,7 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Models\ListingType;
 use App\Models\Property;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
+use Log;
 
 class PropertyRepository extends Property implements PropertyRepositoryInterface
 {
@@ -45,27 +49,61 @@ class PropertyRepository extends Property implements PropertyRepositoryInterface
 
     public function saveInstance(array $data = null) : Property|null
     {          
-        $property = new Property($data ?? $this->data);
+        //make all as a transaction, if anything fails then rollback all
+        DB::transaction(function () use ($data){
 
-        if(!$this->user){
-            return null;
-        }
-        $property->owner()->associate(auth()->user());
+            //make the property instance
+            $property = new Property($data ?? $this->data);
 
-        if(!$this->address){
-            return null;
-        }
-        $property->address()->associate($this->address);
-        $property->save();
+            if(!$this->user){
+                throw ValidationException::withMessages(['user'=>'No user found to assign the property to.']);
+            }
+            $property->owner()->associate(auth()->user());
 
-        if($this->rent_listing){
-            $property->rentListing()->create($this->rent_listing);
-        };
+            //make the address
+            if(!$this->address){
+                throw ValidationException::withMessages(['address'=>'No address found to assign the property to.']);
+            }
+            $property->address()->associate($this->address);
 
-        if($this->sell_listing){
-            $property->sellListing()->create($this->sell_listing);
-        };
+            //save the property
+            $property->save();
+
+            //save listings
+            $this->saveListings(property: $property);
+
+        });
 
         return $this->property_instance;
+    }
+
+    private function saveListings(Property $property)
+    {
+        if(!$property->listing_type_id){
+            throw ValidationException::withMessages(['listing_type'=>'Property listing type missing']);
+        }
+
+        $listing_types = ListingType::get()->toArray();
+        $listing_type = current(array_filter($listing_types, function($type) use ($property){
+            return $type['id'] === $property->listing_type_id;
+        }));
+
+        if(!$listing_type){
+            throw ValidationException::withMessages(['listing_type'=>'Unknown property listing type']);
+        }
+
+        //save the listing type
+        switch($listing_type['name'] ?? null){
+            case 'rent':
+                $property->rentListing()->create($this->rent_listing);
+                break;
+
+            case 'sell':
+                $property->sellListing()->create($this->sell_listing);
+                break;
+            
+            default:
+                throw ValidationException::withMessages(['listing_type'=>'Property listing type not configured']);
+        }
     }
 }

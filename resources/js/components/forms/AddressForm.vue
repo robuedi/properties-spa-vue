@@ -10,7 +10,7 @@
                 <CityInput :modelValue="modelValue.city_id" @update:modelValue="updateInput('city_id', $event)" v-if="modelValue.country" :country-id="modelValue.country.id"/>
 
                 <div  v-if="modelValue.city_id"  class="mb-2">
-                    <InputText placeholder="Street Name" class="w-full" id="value"  type="text" :value="modelValue.street" @input="updateInput('street', $event.target.value)"    />
+                    <InputText placeholder="Street Name" class="w-full" id="value"  type="text" :value="modelValue.street_name" @input="updateInput('street_name', $event.target.value)"    />
                 </div>           
 
                 <div  v-if="modelValue.city_id"  class="mb-2">
@@ -37,7 +37,7 @@ const getValues = ()=>{
         country: null,
         city_id: null,
         street_nr: null,
-        street: null,
+        street_name: null,
         postcode: null
     }
 }

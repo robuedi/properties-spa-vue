@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\Auth\AuthController;
-use App\Http\Controllers\Api\v1\PropertiesController;
+use App\Http\Controllers\Api\v1\UserPropertiesController;
 use App\Http\Controllers\Api\v1\CountriesController;
 use App\Http\Controllers\Api\v1\CitiesController;
 use App\Http\Controllers\Api\v1\ListingTypesController;
@@ -35,7 +35,7 @@ Route::prefix('v1')->group(function(){
     });
     
     Route::middleware('auth:sanctum')->group(function(){
-        Route::apiResource('properties', PropertiesController::class);
+        Route::apiResource('user-properties', UserPropertiesController::class);
     });
 
     Route::get('countries', [CountriesController::class, 'index']);

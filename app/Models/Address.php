@@ -13,7 +13,7 @@ class Address extends Model
 
     protected $table = 'addresses';
 
-    protected $fillable = ['city_id', 'street_nr','street', 'postcode']; 
+    protected $fillable = ['city_id', 'street_name','street_nr', 'postcode']; 
 
     /**
      * Relationships

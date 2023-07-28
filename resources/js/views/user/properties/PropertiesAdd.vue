@@ -13,8 +13,8 @@
 
         <div class="flex flex-col md:basis-1/2 basis-full space-y-8" >
             <AddressForm :modelValue="propertyData.address" @update:modelValue="updateInput('address', $event)"  />
-            <RentListingForm v-if="listingStore.rentItem?.id === propertyData.property?.listing_type_id" :modelValue="propertyData.rentListing" @update:modelValue="updateInput('rentListing', $event)"  class="md:basis-1/2  basis-full"/>
-            <SellListing v-if="listingStore.sellItem?.id === propertyData.property?.listing_type_id"  :modelValue="propertyData.sellListing" @update:modelValue="updateInput('sellListing', $event)"  class="md:basis-1/2 basis-full" />
+            <RentListingForm v-if="listingStore.rentItem?.id === propertyData.property?.listing_type_id" :modelValue="propertyData.rent_listing" @update:modelValue="updateInput('rent_listing', $event)"  class="md:basis-1/2  basis-full"/>
+            <SellListing v-if="listingStore.sellItem?.id === propertyData.property?.listing_type_id"  :modelValue="propertyData.sell_listing" @update:modelValue="updateInput('sell_listing', $event)"  class="md:basis-1/2 basis-full" />
         
         </div>
     </div>
@@ -28,7 +28,7 @@ import SellListing from '@/components/forms/SellListing.vue';
 
 import {reactive, ref} from "vue";
 import { useListingTypeStore } from "@/store/listingType.store";
-import { usePropertyStore } from "@/store/property.store";
+import { useUserPropertyStore } from "@/store/userProperty.store";
 
 const listingStore = useListingTypeStore()
 
@@ -56,8 +56,8 @@ const breadcrumbItems = ref([
 const propertyData = reactive({
     property: {},
     address: {},
-    rentListing: {},
-    sellListing: {},
+    rent_listing: {},
+    sell_listing: {},
 })
 
 //set the data
@@ -68,11 +68,11 @@ const updateInput = (location, data)=>{
 }
 
 //save the property
-const propertyStore = usePropertyStore()
+const userPropertyStore = useUserPropertyStore()
 const saveProperty = () => {
     let data  = {...propertyData}
     delete data.property
-    propertyStore.store({
+    userPropertyStore.store({
         ...propertyData.property, 
         ...data
     })

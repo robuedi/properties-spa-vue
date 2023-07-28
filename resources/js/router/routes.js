@@ -54,11 +54,6 @@ export default [
                 component: () => import('@/views/user/SavedProperties.vue'),
             },
             {
-                path: 'saved-searches',
-                name: 'saved-searches',
-                component: () => import('@/views/user/SavedSearches.vue'),
-            },
-            {
                 path: 'profile-details',
                 name: 'profile-details',
                 component: () => import('@/views/user/ProfileDetails.vue'),
