@@ -49,6 +49,7 @@ import InputSwitch2 from '@/components/inputs/InputSwitch2.vue'
 //custom 
 import ErrorFeedback from '@/components/inputs/extras/ErrorFeedback.vue';
 import BasicForm from '@/components/inputs/extras/BasicForm.vue';
+import InputWrapper from '@/components/inputs/extras/InputWrapper.vue';
 
 
 createApp(App)
@@ -76,4 +77,5 @@ createApp(App)
 .component('Toast', Toast)
 .component('ErrorFeedback', ErrorFeedback)
 .component('BasicForm', BasicForm)
+.component('InputWrapper', InputWrapper)
 .mount('#app')

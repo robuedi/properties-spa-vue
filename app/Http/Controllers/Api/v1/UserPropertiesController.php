@@ -9,7 +9,6 @@ use App\Models\Property;
 use App\Models\Address;
 use App\Repositories\PropertyRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -23,6 +22,7 @@ class UserPropertiesController extends Controller
 {
     public function __construct(protected PropertyRepositoryInterface $property_repository)
     {}
+    
     /**
      * @OA\Get(
      *      path="/api/v1/user-properties",

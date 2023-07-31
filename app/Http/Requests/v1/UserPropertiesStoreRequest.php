@@ -29,8 +29,8 @@ class UserPropertiesStoreRequest extends FormRequest
         $rent_id = $listing_types['rent'] ?? '';
         $sell_id = $listing_types['sell'] ?? '';
         return [
-            'name'              => 'required|min:6',
-            'description'       => 'required|min:6',
+            'name'              => 'required',
+            'description'       => 'required',
             'bedrooms'          => 'required|integer|min:0',
             'bathrooms'         => 'required|integer|min:0',
             'property_type_id'  => 'required|exists:'.PropertyType::class.',id',

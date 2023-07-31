@@ -6,7 +6,7 @@
         <template #content>
             <BasicForm class="mt-3">
                 <ErrorFeedback :error="errors.email">
-                    <InputText placeholder="Email" class="w-full" id="value" v-bind="email" type="text" name="email" :class="{ 'p-invalid': !!errors.email }" aria-describedby="text-error"  />
+                    <InputText placeholder="Email" class="w-full" id="value" v-bind="email" type="text" :class="{ 'p-invalid': !!errors.email }" aria-describedby="text-error"  />
                 </ErrorFeedback>
                 <ErrorFeedback :error="errors.password">
                     <Password :feedback="false"  v-bind="password" :class="{ 'p-invalid': !!errors.password }" inputClass="w-full" placeholder="Password"/>
