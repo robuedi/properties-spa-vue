@@ -1,5 +1,7 @@
 <template>
-  <Dropdown v-model="countryId" showClear :options="countryStore.countries" filter optionValue="id" optionLabel="name" placeholder="Country" class="w-full"/>
+  <InputWrapper name="Country" >
+    <Dropdown v-model="countryId" showClear :options="countryStore.countries" filter optionValue="id" optionLabel="name" placeholder="Please select" class="w-full"/>
+  </InputWrapper>
 </template>
 
 <script setup>

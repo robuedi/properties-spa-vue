@@ -1,12 +1,15 @@
 <template>
     <div class="flex flex-col">
-        <label :for="props.id" class="mb-2">{{props.name}}</label>
-        <slot   ></slot>
-        <small class="p-error" >{{ props.error }}</small>
+        <InputLabel :for="props.id">{{props.name}}</InputLabel>
+        <slot ></slot>
+        <InputError>{{ props.error }}</InputError>
     </div>
 </template>
 
 <script setup>
+import InputError from '@/components/inputs/extras/InputError.vue'
+import InputLabel from '@/components/inputs/extras/InputLabel.vue'
+
 const props = defineProps({
     name: {
         type: String,
@@ -14,13 +17,19 @@ const props = defineProps({
     },
     id: {
         type: String,
-        required: true,
+        required: false,
+        default:''
     },
     error: {
         type: String,
         required: false,
         default: null,
-    }
+    },
+    placeholder: {
+        type: String,
+        required: false,
+        default:''
+    },
 })
 
 </script>

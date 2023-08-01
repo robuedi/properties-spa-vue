@@ -9,13 +9,12 @@
     </div>
 
     <div class="flex items-start flex-wrap md:flex-nowrap space-y-8 md:space-x-8 md:space-y-0 ">
-        <PropertyForm  :modelValue="propertyData.property" @update:modelValue="updateInput('property', $event)" class="md:basis-1/2  basis-full"/>
+        <PropertyForm :error="storeErrorResponse" :modelValue="propertyData.property" @update:modelValue="updateInput('property', $event)" class="md:basis-1/2  basis-full"/>
 
         <div class="flex flex-col md:basis-1/2 basis-full space-y-8" >
-            <AddressForm :modelValue="propertyData.address" @update:modelValue="updateInput('address', $event)"  />
-            <RentListingForm v-if="listingStore.rentItem?.id === propertyData.property?.listing_type_id" :modelValue="propertyData.rent_listing" @update:modelValue="updateInput('rent_listing', $event)"  class="md:basis-1/2  basis-full"/>
-            <SellListing v-if="listingStore.sellItem?.id === propertyData.property?.listing_type_id"  :modelValue="propertyData.sell_listing" @update:modelValue="updateInput('sell_listing', $event)"  class="md:basis-1/2 basis-full" />
-        
+            <AddressForm :error="storeErrorResponse?.address" :modelValue="propertyData.address" @update:modelValue="updateInput('address', $event)"  />
+            <RentListingForm :error="storeErrorResponse?.rent_listing" v-if="listingStore.rentItem?.id === propertyData.property?.listing_type_id" :modelValue="propertyData.rent_listing" @update:modelValue="updateInput('rent_listing', $event)"  class="md:basis-1/2  basis-full"/>
+            <SellListing :error="storeErrorResponse?.sell_listing" v-if="listingStore.sellItem?.id === propertyData.property?.listing_type_id"  :modelValue="propertyData.sell_listing" @update:modelValue="updateInput('sell_listing', $event)"  class="md:basis-1/2 basis-full" />
         </div>
     </div>
 </template>
@@ -68,13 +67,38 @@ const updateInput = (location, data)=>{
 }
 
 //save the property
+let storeErrorResponse = ref({})
 const userPropertyStore = useUserPropertyStore()
 const saveProperty = () => {
     let data  = {...propertyData}
     delete data.property
+
+    //trigger store
     userPropertyStore.store({
         ...propertyData.property, 
         ...data
+    })
+    .catch((err)=> {
+        let errors = err?.response?.data?.errors ?? {}
+        let treeError = {}
+        for(let key in errors){
+            let keys = key.split('.')
+
+            //single field
+            if(keys.length === 1){
+                treeError[key] = errors[key]
+            }
+            //or group of fields
+            else{
+                let errorName = keys.slice(1).join('.')
+                if(!(keys[0] in treeError)){
+                    treeError[keys[0]] = {}
+                }
+
+                treeError[keys[0]][errorName] = errors[key]
+            }
+        }
+        storeErrorResponse.value = treeError
     })
 }
 

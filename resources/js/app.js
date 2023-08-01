@@ -39,12 +39,14 @@ import InlineMessage from 'primevue/inlinemessage'
 import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
 import TabMenu from 'primevue/tabmenu'
-import Textarea from 'primevue/textarea'
 import Dropdown from 'primevue/dropdown'
 import SelectButton from 'primevue/selectbutton'
-import InputNumber from 'primevue/inputnumber'
 import Breadcrumb from 'primevue/breadcrumb'
+
+import TextareaInput from '@/components/inputs/TextareaInput.vue'
 import InputSwitch2 from '@/components/inputs/InputSwitch2.vue'
+import NumberInput from '@/components/inputs/NumberInput.vue'
+import TextInput from '@/components/inputs/TextInput.vue'
 
 //custom 
 import ErrorFeedback from '@/components/inputs/extras/ErrorFeedback.vue';
@@ -61,7 +63,6 @@ createApp(App)
 .component('Avatar', Avatar)
 .component('Menubar', Menubar)
 .component('InputText', InputText)
-.component('InputNumber', InputNumber)
 .component('SplitButton', SplitButton)
 .component('Card', Card)
 .component('Password', Password)
@@ -69,7 +70,7 @@ createApp(App)
 .component('Listbox', Listbox)
 .component('InlineMessage', InlineMessage)
 .component('TabMenu', TabMenu)
-.component('Textarea', Textarea)
+.component('TextareaInput', TextareaInput)
 .component('Dropdown', Dropdown)
 .component('SelectButton', SelectButton)
 .component('Breadcrumb', Breadcrumb)
@@ -78,4 +79,6 @@ createApp(App)
 .component('ErrorFeedback', ErrorFeedback)
 .component('BasicForm', BasicForm)
 .component('InputWrapper', InputWrapper)
+.component('NumberInput', NumberInput)
+.component('TextInput', TextInput)
 .mount('#app')
