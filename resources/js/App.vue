@@ -5,7 +5,7 @@
   <Toast position="bottom-right" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted } from "vue";
 import { useAuthStore } from "@/store/auth.store";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
@@ -14,6 +14,5 @@ const auth = useAuthStore()
 onMounted(() => {
     auth.refreshToken()
 })
-
 </script>
 

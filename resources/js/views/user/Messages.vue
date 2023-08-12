@@ -1,8 +1,8 @@
 <template>
-    messages
+    messages _
 </template>
 
-<script setup>
-
+<script setup lang="ts">
+// let tt: number = 'abc'
 </script>
 

@@ -5,6 +5,7 @@ Technologies used in the project:
 - Laravel 10 - PHP8.2
 - Vue.js 3
 - Pinia
+- TypeScript
 - Vue Router
 - Tailwind CSS
 - PrimeVue 

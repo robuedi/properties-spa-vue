@@ -5,42 +5,31 @@
     </div>
 </template>
 
-<script setup>
-import { useRouter } from "vue-router"
-const router = useRouter()
-
+<script setup lang="ts" >
 const items = [
   {
       label: 'Messages',
       icon: 'pi pi-fw pi-inbox',
       class: 'pt-3 	md:pl-16 lg:pl-38 xl:pl-48',
-      command: ()=> {
-          router.push({name: 'messages'})
-      }
+      to: { name: 'messages' }
   },
   {
       label: 'My Properties',
       icon: 'pi pi-fw pi-home',
       class: 'pt-3',
-      command: ()=> {
-          router.push({name: 'properties'})
-      }
+      to: { name: 'my-properties' }
   },
   {
       label: 'Saved Properties',
       icon: 'pi pi-fw pi-heart',
       class: 'pt-3',
-      command: ()=> {
-          router.push({name: 'saved-properties'})
-      }
+      to: { name: 'saved-properties' }
   },
   {
       label: 'Profile Details',
       icon: 'pi pi-fw pi-user-edit',
       class: 'pt-3',
-      command: () => {
-          router.push({name: 'profile-details'})
-      }
+      to: { name: 'profile-details' }
   }
 ]
 </script>

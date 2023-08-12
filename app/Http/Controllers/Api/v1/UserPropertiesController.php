@@ -46,6 +46,7 @@ class UserPropertiesController extends Controller
                         ->allowedFilters([
                             AllowedFilter::exact('bedrooms'),
                         ])
+                        ->allowedIncludes(['propertyType', 'listingType', 'rentListing', 'sellListing'])
                         ->select($public_fields)
                         ->allowedSorts($public_fields)
                         ->paginate(request('limit', 100))

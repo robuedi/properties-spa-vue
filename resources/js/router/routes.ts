@@ -1,6 +1,10 @@
 import { useAuthStore } from '@/store/auth.store'
+import { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 
-const redirectLoggedToHome = (to, from, next) => {
+const redirectLoggedToHome = (
+    _to: RouteLocationNormalized,
+    _from: RouteLocationNormalized,
+    next: NavigationGuardNext) => {
     if (useAuthStore().isLogged) {
         next({ name: 'user' })
     } else {
@@ -39,8 +43,8 @@ export default [
                 component: () => import('@/views/user/Messages.vue'),
             },
             {
-                path: 'properties',
-                name: 'properties',
+                path: 'my-properties',
+                name: 'my-properties',
                 component: () => import('@/views/user/properties/PropertiesIndex.vue'),
             },
             {

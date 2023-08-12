@@ -48,8 +48,14 @@ const updateInput = (prop, value) => {
 // //set form validation schema
 const { setErrors, defineInputBinds, validateField, errors} = useForm({
   validationSchema: yup.object({
-    price_weekly: yup.number().required(),
-    price_monthly: yup.number().required(),
+    price_weekly: yup.number().when('price_monthly',{
+      is: (value) => value.trim() === '',
+      then: yup.number().required('Weekly price is required if monthly price is not set.')
+    }),
+    price_monthly: yup.number().when('price_weekly',{
+      is: (value) => value.trim() === '',
+      then: yup.number().required('Monthly price is required if weekly price is not set.')
+    }),
     deposit: yup.number().required(),
     minimum_tenancy: yup.number().required(),
   }),

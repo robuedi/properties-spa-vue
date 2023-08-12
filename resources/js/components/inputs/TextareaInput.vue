@@ -10,8 +10,6 @@ import Textarea from 'primevue/textarea'
 import InputError from '@/components/inputs/extras/InputError.vue'
 import InputLabel from '@/components/inputs/extras/InputLabel.vue'
 
-import { defineProps, defineEmits } from 'vue';
-
 const props = defineProps({
     name: {
         type: String,

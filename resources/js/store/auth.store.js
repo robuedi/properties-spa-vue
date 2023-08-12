@@ -12,7 +12,7 @@ export const useAuthStore = defineStore("auth",{
     }),
     getters: {
         isLogged: (state) => !!state.token,
-        authUser: (state) => state.user
+        authUser: (state) => state.user,
     },
     actions: {
         async register(credentials) {
@@ -38,6 +38,10 @@ export const useAuthStore = defineStore("auth",{
                 })
         },
         async refreshToken() {
+            if(!this.token){
+                return;
+            }
+
             this.setAxiosAuthorization()
             return axios.get("auth/refresh-token")
                 .then((response) => {
@@ -72,22 +76,16 @@ export const useAuthStore = defineStore("auth",{
         async logout() {
             return axios.get("auth/logout")
                 .then((response) => {
+                    return response
+                })
+                .finally(()=>{
                     this.user = {...defaultUser};
                     this.token = '';
-                    this.clearAxiosAuthorization()
-                    return response
+                    axios.defaults.headers.common["Authorization"] = '';
                 })
         },
         async setAxiosAuthorization(){
             axios.defaults.headers.common["Authorization"] = this.token;
-        },
-        async clearAxiosAuthorization(){
-            axios.defaults.headers.common["Authorization"] = '';
-        },
-        clearUserCache(){
-            this.user = {...defaultUser};
-            this.token = '';
-            this.clearAxiosAuthorization()
         }
     }
 });

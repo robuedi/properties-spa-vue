@@ -23,7 +23,6 @@ import './api'
 
 import './bootstrap'
 
-
 import App from './App.vue'
 
 import Button from 'primevue/button'
@@ -33,7 +32,7 @@ import InputText from 'primevue/inputtext'
 import SplitButton from 'primevue/splitbutton'
 import Card from 'primevue/card'
 import Password from 'primevue/password'
-import Divider from 'primevue/Divider'
+import Divider from 'primevue/divider'
 import Listbox from 'primevue/listbox'
 import InlineMessage from 'primevue/inlinemessage'
 import ToastService from 'primevue/toastservice'

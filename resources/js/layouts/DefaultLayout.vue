@@ -9,7 +9,7 @@
     </div>
 </template>
   
-<script setup>
+<script lang="ts" setup>
 import DefaultHeader from '@/layouts/headers/DefaultHeader.vue'
 </script>
   
