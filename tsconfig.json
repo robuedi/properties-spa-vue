@@ -22,11 +22,10 @@
       "noFallthroughCasesInSwitch": true,
 
       "paths": {
-        "@/*": ["./resources/js/*"],
-        "~/*": ["./resources/js/*"]
+        "@/*": ["./src/*"]
       },
       "types": ["vite/client"]
     },
-    "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.tsx", "resources/**/*.vue", "resources/**/**/*.vue"],
+    "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
     "references": [{ "path": "./tsconfig.node.json" }]
   }

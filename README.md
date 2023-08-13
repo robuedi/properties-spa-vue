@@ -2,7 +2,6 @@
 
 Technologies used in the project:
 
-- Laravel 10 - PHP8.2
 - Vue.js 3
 - Pinia
 - TypeScript
@@ -22,20 +21,9 @@ Technologies used in the project:
 
 Go to http://localhost
 
-
-### API documentation 
-
-Go to http://localhost/api/documentation#/
-
-
-### PHPUnit
-
-Run `sail test`
-
 ### Screenshot
 
 ![frontend](Screenshot.png)
-![swagger](Screenshot2.png)
 
 
 ## License
