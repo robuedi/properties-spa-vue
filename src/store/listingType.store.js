@@ -16,7 +16,7 @@ export const useListingTypeStore = defineStore("listingType",{
             this.apiState = ListingType.state.LOADING
             return new Promise((resolve, reject)=>{
                 listingType
-                .get()
+                .getPagination()
                 .then((response)=>{
                     this.listingTypes_ = response.data
                     this.apiState = ListingType.state.LOADED

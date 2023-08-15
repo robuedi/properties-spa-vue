@@ -13,21 +13,21 @@
 
         <div class="flex flex-col md:basis-1/2 basis-full space-y-8" >
             <AddressForm :error="storeErrorResponse?.address" :modelValue="propertyData.address" @update:modelValue="updateInput('address', $event)"  />
-            <RentListingForm :error="storeErrorResponse?.rent_listing" v-if="listingStore.rentItem?.id === propertyData.property?.listing_type_id" :modelValue="propertyData.rent_listing" @update:modelValue="updateInput('rent_listing', $event)"  class="md:basis-1/2  basis-full"/>
-            <SellListing :error="storeErrorResponse?.sell_listing" v-if="listingStore.sellItem?.id === propertyData.property?.listing_type_id"  :modelValue="propertyData.sell_listing" @update:modelValue="updateInput('sell_listing', $event)"  class="md:basis-1/2 basis-full" />
+            <RentListingForm v-if="listingStore.rentItem?.id === propertyData.property?.listing_type_id"  :error="storeErrorResponse?.rent_listing" :modelValue="propertyData.rent_listing" @update:modelValue="updateInput('rent_listing', $event)"  class="md:basis-1/2  basis-full"/>
+            <SellListing v-if="listingStore.sellItem?.id === propertyData.property?.listing_type_id"  :error="storeErrorResponse?.sell_listing"  :modelValue="propertyData.sell_listing" @update:modelValue="updateInput('sell_listing', $event)"  class="md:basis-1/2 basis-full" />
         </div>
     </div>
 </template>
 
-<script setup>
+<script setup >
 import PropertyForm from '@/components/forms/PropertyForm.vue';
 import AddressForm from '@/components/forms/AddressForm.vue';
 import RentListingForm from '@/components/forms/RentListingForm.vue';
 import SellListing from '@/components/forms/SellListing.vue';
-
+import UserPropertyService from  "@/services/repositories/UserPropertyService";
+import { useToast } from "primevue/usetoast";
 import {reactive, ref} from "vue";
 import { useListingTypeStore } from "@/store/listingType.store";
-import { useUserPropertyStore } from "@/store/userProperty.store";
 
 const listingStore = useListingTypeStore()
 
@@ -51,9 +51,12 @@ const breadcrumbItems = ref([
     {label: 'Add Property'},
 ]);
 
+
 //here we store the property data
 const propertyData = reactive({
-    property: {},
+    property: {
+        listing_type_id: null
+    },
     address: {},
     rent_listing: {},
     sell_listing: {},
@@ -67,38 +70,28 @@ const updateInput = (location, data)=>{
 }
 
 //save the property
-let storeErrorResponse = ref({})
-const userPropertyStore = useUserPropertyStore()
+let storeErrorResponse = ref({
+    address: {},
+    rent_listing: {},
+    sell_listing: {},
+})
+
+const toast = useToast();
 const saveProperty = () => {
     let data  = {...propertyData}
     delete data.property
 
     //trigger store
-    userPropertyStore.store({
+    UserPropertyService.store({
         ...propertyData.property, 
         ...data
     })
+    .then(()=>{
+        toast.add({ severity: 'success', summary: 'New property created', life: 3000 });
+        router.push({name: 'my-properties'})
+    })
     .catch((err)=> {
-        let errors = err?.response?.data?.errors ?? {}
-        let treeError = {}
-        for(let key in errors){
-            let keys = key.split('.')
-
-            //single field
-            if(keys.length === 1){
-                treeError[key] = errors[key]
-            }
-            //or group of fields
-            else{
-                let errorName = keys.slice(1).join('.')
-                if(!(keys[0] in treeError)){
-                    treeError[keys[0]] = {}
-                }
-
-                treeError[keys[0]][errorName] = errors[key]
-            }
-        }
-        storeErrorResponse.value = treeError
+        storeErrorResponse.value = err
     })
 }
 

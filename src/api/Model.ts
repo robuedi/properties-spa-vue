@@ -20,13 +20,13 @@ export default class Model extends BaseModel {
         return this.$http.request(config)
     }
 
-    getPagination():Promise<APICollectionListing<this>>{
+    getPagination<T>() : Promise<APICollectionListing<T>>{
         return new Promise((resolve, reject)=>{
             super
             .get()
             .then((response) => {
                 let data: unknown = response as unknown
-                let castedData: APICollectionListing<this> = data as APICollectionListing<this>
+                let castedData: APICollectionListing<T> = data as APICollectionListing<T>
                 resolve(castedData)
             })
             .catch((err)=>{

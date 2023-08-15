@@ -35,15 +35,15 @@
 <script setup lang="ts">
 import type { PropType } from "vue";
 import Tag from 'primevue/tag'
-import UserProperty from '@/api/models/UserProperty';
+import {IUserProperty} from '@/types/database';
 
 //set model props
 export interface Props {
-  property: UserProperty
+  property: IUserProperty
 }
 const props = defineProps({
   property:{
-    type: Object as PropType<UserProperty>,
+    type: Object as PropType<IUserProperty>,
     required: true,
     default: {}
   }

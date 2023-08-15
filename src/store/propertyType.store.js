@@ -14,7 +14,7 @@ export const usePropertyTypeStore = defineStore("propertyType",{
             this.apiState = PropertyType.state.LOADING
             return new Promise((resolve, reject)=>{
                 propertyType
-                .get()
+                .getPagination()
                 .then((response)=>{
                     this.propertyTypes_ = response.data
                     this.apiState = PropertyType.state.LOADED

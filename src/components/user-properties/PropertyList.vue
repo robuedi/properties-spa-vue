@@ -13,15 +13,15 @@
 <script setup lang="ts">
 import DataView from 'primevue/dataview'
 import PropertyItem from '@/components/user-properties/PropertyItem.vue';
-import UserPropertyService from  "@/services/UserPropertyService";
-import UserProperty from  "@/api/models/UserProperty";
+import UserPropertyService from  "@/services/repositories/UserPropertyService";
+import {IUserProperty} from '@/types/database';
 import { ref, onMounted } from "vue";
 
 //user properties
-let userProperties = ref<UserProperty[]>([])
+let userProperties = ref<IUserProperty[]>([])
 
 onMounted(() => {
-    new UserPropertyService()
+    UserPropertyService
     .getAll()
     .then((data) => {
         userProperties.value = data.data

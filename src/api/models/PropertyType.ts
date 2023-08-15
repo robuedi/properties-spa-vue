@@ -1,11 +1,14 @@
 import Model from '@/api/Model'
+import {IPropertyType} from '@/types/database'
 
 export default class PropertyType extends Model {
-
-  name: string =''
   
   resource() {
     return 'property-types'
+  }
+
+  paginate(){
+    return super.getPagination<IPropertyType>()
   }
   
 }
