@@ -23,7 +23,7 @@ Go to http://localhost
 
 ### Screenshot
 
-![frontend](screenshot.png)
+![frontend](screenshot_.png)
 
 
 ## License
