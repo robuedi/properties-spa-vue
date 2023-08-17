@@ -48,7 +48,7 @@
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { useAuthStore } from "@/store/auth.store"
-import { UserCredentials } from '@/types/api'
+import { UserRegistrationCredentials } from '@/types/api'
 
 //set props
 const { hideLoginLink } = withDefaults(defineProps<{ hideLoginLink?: boolean }>(), {
@@ -77,7 +77,7 @@ const password_confirmation = defineComponentBinds('password_confirmation');
 const emit = defineEmits(['registered'])
 const doRegister = handleSubmit((values , { setErrors, resetForm }) => {
     //cast the values as the type we need for the api
-    let valueCast = values as UserCredentials
+    let valueCast = values as UserRegistrationCredentials
     if(!valueCast){
         throw new Error('Wrong registration fields sent')
     }
