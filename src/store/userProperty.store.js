@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import UserProperty from  "@/api/models/UserProperty";
+import UserProperty from  "@/services/models/UserProperty";
 
 export const useUserPropertyStore = defineStore("userProperty",{
     actions: {

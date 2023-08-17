@@ -12,7 +12,7 @@
     </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useAuthStore } from "@/store/auth.store";
 import { useRouter } from "vue-router";
 import { useToast } from "primevue/usetoast";

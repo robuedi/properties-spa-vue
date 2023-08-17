@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import RegisterForm from '@/components/forms/RegisterForm.vue';
 import { useRouter } from "vue-router";
 import { useToast } from "primevue/usetoast";

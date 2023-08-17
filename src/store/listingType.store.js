@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import ListingType from  "@/api/models/ListingType";
+import ListingType from  "@/services/models/ListingType";
 
 export const useListingTypeStore = defineStore("listingType",{
     state: () => ({

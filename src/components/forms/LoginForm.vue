@@ -16,7 +16,7 @@
         </template>
         <template #footer>
             <Button icon="pi pi-user" @click="doLogin" class="w-full " label="Login" />
-            <p class="text-center mt-2" v-if="!props.hideRegisterLink">
+            <p class="text-center mt-2" v-if="!hideRegisterLink">
                 Don't have an account yet? 
                 <router-link class="text-dark text-weight-bold" style="text-decoration: none" :to="{name: 'register'}"><strong>Register</strong></router-link>
             </p>
@@ -24,18 +24,14 @@
     </Card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useAuthStore } from "@/store/auth.store";
 
 //set props
-const props = defineProps({
-    hideRegisterLink: {
-        type: Boolean,
-        required: false,
-        default: false
-    }
+const { hideRegisterLink } = withDefaults(defineProps<{ hideRegisterLink?: boolean }>(), {
+    hideRegisterLink: false,
 })
 
 //set form validation schema
@@ -70,3 +66,4 @@ const doLogin = handleSubmit((values, { setErrors, resetForm }) => {
 });
 
 </script>
+

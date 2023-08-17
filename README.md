@@ -11,15 +11,14 @@ Technologies used in the project:
 
 ## How to use it
 
-1. Install Docker
-2. Run `sail up -d`
-3. Run `sail composer install`
-4. Run `sail artisan db:seed`
+1. Install the Properties API project first and return here
+2. Run `npm install`
+3. Run `npm run dev`
 
 
 ### Web UI
 
-Go to http://localhost
+Go to http://localhost:5173/
 
 ### Screenshot
 

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import Country from  "@/api/models/Country";
+import Country from  "@/services/models/Country";
 
 export const useCountryStore = defineStore("country",{
     state: () => ({

@@ -6,7 +6,6 @@ import 'normalize.css';
 
 //Prime Vue UI
 import PrimeVue from 'primevue/config';
-// import "primevue/resources/themes/lara-light-indigo/theme.css";
 import "primevue/resources/themes/lara-light-blue/theme.css"; //theme
 import "primevue/resources/primevue.min.css"; //core CSS
 import "primeicons/primeicons.css"; //icons

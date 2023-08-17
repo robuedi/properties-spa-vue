@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import LoginForm from '@/components/forms/LoginForm.vue';
 import { useRouter } from "vue-router";
 

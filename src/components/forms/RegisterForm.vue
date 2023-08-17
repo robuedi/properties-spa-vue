@@ -36,7 +36,7 @@
         </template>
         <template #footer>
             <Button icon="pi pi-user" @click="doRegister" class="w-full " label="Register" />
-            <p class="text-center mt-2" v-if="!props.hideLoginLink">
+            <p class="text-center mt-2" v-if="!hideLoginLink">
                 Already having an account?  
                 <router-link class="text-dark text-weight-bold" style="text-decoration: none" :to="{name: 'login'}"><strong>Login</strong></router-link>
             </p>
@@ -44,18 +44,14 @@
     </Card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useAuthStore } from "@/store/auth.store";
 
 //set props
-const props = defineProps({
-    hideLoginLink: {
-        type: Boolean,
-        required: false,
-        default: false
-    }
+const { hideLoginLink } = withDefaults(defineProps<{ hideLoginLink?: boolean }>(), {
+    hideLoginLink: false,
 })
 
 const auth = useAuthStore()

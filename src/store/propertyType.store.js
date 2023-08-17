@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import PropertyType from  "@/api/models/PropertyType";
+import PropertyType from  "@/services/models/PropertyType";
 
 export const usePropertyTypeStore = defineStore("propertyType",{
     state: () => ({

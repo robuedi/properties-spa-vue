@@ -1,7 +1,4 @@
-import Model from "@/api/Model"
-// import ListingType from "@/api/models/ListingType"
-// import {TListingType} from '@/types/database'
-// import PropertyType from "@/api/models/PropertyType"
+import Model from "@/services/models/Model"
 import {IUserProperty} from '@/types/database';
 
 export default class UserProperty extends Model {

@@ -1,4 +1,4 @@
-import UserProperty from  "@/api/models/UserProperty";
+import UserProperty from  "@/services/models/UserProperty";
 import FormResponseErrorParser from "@/services/forms/FormResponseErrorParser"
 import {FormErrorResponseData} from "@/types/api"
 import { AxiosResponse } from "axios";

@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import City from '@/api/models/City'
+import City from '@/services/models/City'
 import InputLabel from '@/components/inputs/extras/InputLabel.vue'
 import InputError from '@/components/inputs/extras/InputError.vue'
 import { onMounted, computed, watch, onUnmounted } from "vue";
@@ -66,4 +66,4 @@ onMounted(() => {
 onUnmounted(() => {
   cityId.value = null
 })
-</script>
+</script>@/services/models/City
