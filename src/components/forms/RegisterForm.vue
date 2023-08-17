@@ -45,9 +45,10 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import { useAuthStore } from "@/store/auth.store";
+import { useForm } from 'vee-validate'
+import * as yup from 'yup'
+import { useAuthStore } from "@/store/auth.store"
+import { UserCredentials } from '@/types/api'
 
 //set props
 const { hideLoginLink } = withDefaults(defineProps<{ hideLoginLink?: boolean }>(), {
@@ -74,8 +75,15 @@ const password_confirmation = defineComponentBinds('password_confirmation');
 
 //do the registration
 const emit = defineEmits(['registered'])
-const doRegister = handleSubmit((values, { setErrors, resetForm }) => {
-  auth.register(values)
+const doRegister = handleSubmit((values , { setErrors, resetForm }) => {
+    //cast the values as the type we need for the api
+    let valueCast = values as UserCredentials
+    if(!valueCast){
+        throw new Error('Wrong registration fields sent')
+    }
+
+    //submit registration request
+    auth.register(valueCast)
     .then(() => {
         resetForm()
         emit('registered', true)
