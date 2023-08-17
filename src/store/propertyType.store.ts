@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import PropertyType from  "@/services/models/PropertyType";
+import {IPropertyType} from '@/types/database'
 
 export const usePropertyTypeStore = defineStore("propertyType",{
     state: () => ({
-        propertyTypes_: [],
-        apiState: PropertyType.state.INITIAL
+        propertyTypes_: [] as IPropertyType[],
+        apiState: PropertyType.state.INITIAL as keyof typeof PropertyType.state
     }),
     getters: {
         propertyTypes: (state) => state.propertyTypes_,
@@ -14,7 +15,7 @@ export const usePropertyTypeStore = defineStore("propertyType",{
             this.apiState = PropertyType.state.LOADING
             return new Promise((resolve, reject)=>{
                 propertyType
-                .getPagination()
+                .getPagination<IPropertyType>()
                 .then((response)=>{
                     this.propertyTypes_ = response.data
                     this.apiState = PropertyType.state.LOADED

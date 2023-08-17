@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
 import City from  "@/services/models/City";
 
+import {ICity} from '@/types/database'
+
 export const useCityStore = defineStore("city",{
     state: () => ({
-        cities_: [],
-        apiState: City.state.INITIAL
+        cities_: [] as ICity[],
+        apiState: City.state.INITIAL as keyof typeof City.state
     }),
     getters: {
         cities: (state) => state.cities_,
@@ -14,9 +16,9 @@ export const useCityStore = defineStore("city",{
             this.apiState = City.state.LOADING
             return new Promise((resolve, reject)=>{
                 city
-                .get()
+                .getCollection<ICity>()
                 .then((response)=>{
-                    this.cities_ = response.data
+                    this.cities_ = response
                     this.apiState = City.state.LOADED
                     resolve(response)
                 })

@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import ListingType from  "@/services/models/ListingType";
+import {IListingType} from '@/types/database'
 
 export const useListingTypeStore = defineStore("listingType",{
     state: () => ({
-        listingTypes_: [],
-        apiState: ListingType.state.INITIAL
+        listingTypes_: [] as IListingType[],
+        apiState: ListingType.state.INITIAL as keyof typeof ListingType.state
     }),
     getters: {
         listingTypes: (state) => state.listingTypes_,
@@ -16,7 +17,7 @@ export const useListingTypeStore = defineStore("listingType",{
             this.apiState = ListingType.state.LOADING
             return new Promise((resolve, reject)=>{
                 listingType
-                .getPagination()
+                .getPagination<IListingType>()
                 .then((response)=>{
                     this.listingTypes_ = response.data
                     this.apiState = ListingType.state.LOADED

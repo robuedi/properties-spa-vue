@@ -25,9 +25,29 @@ export default class Model extends BaseModel {
             super
             .get()
             .then((response) => {
-                let data: unknown = response as unknown
-                let castedData: APICollectionListing<T> = data as APICollectionListing<T>
-                resolve(castedData)
+                let response_: unknown = response as unknown
+                if( response_ && typeof response_ === 'object' && 'data' in response_){
+                    let castedData: APICollectionListing<T> = response_ as APICollectionListing<T>
+                    resolve(castedData)
+                }
+                reject('Wrong format data from server')
+            })
+            .catch((err)=>{
+                reject(err)
+            })
+        })
+    }
+
+    getCollection<T>() : Promise<T[]>{
+        return new Promise((resolve, reject)=>{
+            super
+            .get()
+            .then((response) => {
+                let collection = response as unknown
+                if( collection && typeof collection === 'object' && 'data' in collection){
+                    resolve(collection.data as T[])
+                }
+                reject('Wrong format data from server')
             })
             .catch((err)=>{
                 reject(err)

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { useStorage } from '@vueuse/core'
 
 //default values
-import {defaultUser} from './defaultStateValues'
+const defaultUser = {name:'', email:''}
 
 export const useAuthStore = defineStore("auth",{
     state: () => ({

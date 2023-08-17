@@ -15,13 +15,13 @@ import '@/assets/tailwind.scss'
 //add any custom scss
 import '@/assets/app.scss'
 
+import '@/services/utils'
+
 //get the router
-import router from './router'
+import router from '@/router'
 
 //api
-import './api'
-
-import './bootstrap'
+import '@/api'
 
 import App from './App.vue'
 
