@@ -78,14 +78,10 @@ let storeErrorResponse = ref({
 
 const toast = useToast();
 const saveProperty = () => {
-    let data  = {...propertyData}
-    delete data.property
+    let {property, ...propertyExtrasData}  = propertyData
 
     //trigger store
-    UserPropertyService.store({
-        ...propertyData.property, 
-        ...data
-    })
+    UserPropertyService.store({...property, ...propertyExtrasData})
     .then(()=>{
         toast.add({ severity: 'success', summary: 'New property created', life: 3000 });
         router.push({name: 'my-properties'})
