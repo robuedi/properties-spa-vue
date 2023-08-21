@@ -1,28 +1,33 @@
 import * as yup from 'yup'
-import {  IFormErrObj, IInputObj } from '@/types/forms'
+import {  GeneralInputType, FormErrorMessages, IInputObj, ErrMsgCallback } from '@/types/forms'
 
-export default class AddressFormValidation{
+export default class FormValidation{
 
-    protected errors: IFormErrObj = {}
-    protected schemaObj
+    protected errors: FormErrorMessages = {}
+    protected errorsCallback: ErrMsgCallback = ()=>{}
+    protected schemaObj 
 
-    constructor(schemaObj: {}){
-        this.schemaObj = yup.object().shape(schemaObj)
+    constructor(schemaObj_: {}, errorsCallback: ErrMsgCallback){
+        this.schemaObj = yup.object().shape(schemaObj_)
+        this.errorsCallback = errorsCallback
     }
 
-    async validateInput(inputName: string, inputValue: string|number|boolean|null){
-        let obj: IInputObj = {}
-        obj[inputName] = inputValue
-        await this.schemaObj.validateAt(inputName, obj)
-        .then(() => {
-            // No validation errors for this field, remove from the errors object
-            delete this.errors[inputName];
-        })
-        .catch(validationError => {
-          this.errors[inputName] = validationError.message;
-        })
+    validateInput(){
+        return async (inputName: string, inputValue: GeneralInputType) => {
+            let obj: IInputObj = {}
+            obj[inputName] = inputValue
 
-        return this.errors
+            //make the validation
+            await this.schemaObj.validateAt(inputName, obj)
+            .then(() => {
+                // No validation errors for this field, remove from the errors object
+                delete this.errors[inputName];
+            })
+            .catch(validationError => {
+                this.errors[inputName] = validationError.message;
+            })
+
+            this.errorsCallback({...this.errors})
+        }
     }
-
 }

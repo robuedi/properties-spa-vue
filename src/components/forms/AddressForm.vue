@@ -7,13 +7,13 @@
             <BasicForm>
                 <CountryInput :modelValue="modelValue.country_id" @update:modelValue="updateInput('country_id', $event)" />
 
-                <CityInput :modelValue="modelValue.city_id" @blur="validateInput('city_id', modelValue.city_id)"   :disabled="!modelValue.country_id" :error="errors?.city_id"   @update:modelValue="updateInput('city_id', $event)" :countryId="modelValue?.country_id"/>
+                <CityInput :error="errors?.city_id" :modelValue="modelValue.city_id" @change="doValidate('city_id', modelValue.city_id)"   :disabled="!modelValue.country_id"  @update:modelValue="updateInput('city_id', $event)" :countryId="modelValue?.country_id"/>
 
-                <TextInput name="Street Name" :error="errors.street_name"   @blur="validateInput('street_name', modelValue.street_name)" :disabled="!modelValue.city_id" :value="modelValue.street_name" @input="updateInput('street_name', $event)"    />
+                <TextInput :error="errors?.street_name"   @blur="doValidate('street_name', modelValue.street_name)" :disabled="!modelValue.city_id" :value="modelValue.street_name" @input="updateInput('street_name', $event)"    />
 
-                <TextInput name="Street Number" :error="errors.street_nr"   @blur="validateInput('street_nr', modelValue.street_nr)" :disabled="!modelValue.city_id" :value="modelValue.street_nr" @input="updateInput('street_nr', $event)"  />
+                <TextInput :error="errors?.street_nr"   @blur="doValidate('street_nr', modelValue.street_nr)" :disabled="!modelValue.city_id" :value="modelValue.street_nr" @input="updateInput('street_nr', $event)"  />
                 
-                <TextInput name="Postcode" :error="errors?.postcode"  @blur="validateInput('postcode', modelValue.postcode)" :disabled="!modelValue.city_id" :value="modelValue.postcode" @input="updateInput('postcode', $event)"  />
+                <TextInput :error="errors?.postcode"  @blur="doValidate('postcode', modelValue.postcode)" :disabled="!modelValue.city_id" :value="modelValue.postcode" @input="updateInput('postcode', $event)"  />
             </BasicForm>
         </template>
     </Card>
@@ -24,7 +24,7 @@ import CityInput from '@/components/inputs/CityInput.vue';
 import CountryInput from '@/components/inputs/CountryInput.vue';
 import {watch, ref, toRefs} from 'vue'
 import AddressFormValidation from '@/services/forms/validation/AddressFormValidation'
-import {  IFormErrObj } from '@/types/forms'
+import {  GeneralInputType, FormErrorMessages } from '@/types/forms'
 
 interface IAddressForm {
   country_id: number|null,
@@ -60,7 +60,7 @@ const { modelValue, error } = toRefs(props)
 
 //update model externally
 const emit = defineEmits(['update:modelValue']);
-const updateInput = (prop: string, value: string|number|boolean|null) => {
+const updateInput = (prop: string, value: GeneralInputType) => {
   emit('update:modelValue', { ...modelValue.value, [prop]: value });
 };
 
@@ -79,18 +79,11 @@ watch(modelValue.value, (newVal)=>{
 })
 
 //validate inputs
-let errors = ref<IFormErrObj>({})
-let validator = new AddressFormValidation()
-const validateInput = (inputName: string, inputValue: string|number|boolean|null)=>{
-  validator.validateInput(inputName, inputValue)
-  .then((data) =>{
-    console.log(data)
-    errors.value = data
-  })
-}
-watch(() => errors.value, (ffff)=>{
-  console.log(ffff)
-})
+let errors = ref<FormErrorMessages>({})
+
+//make validation 
+let { doValidate } = AddressFormValidation.make((data) => { errors.value = data })
+
 //watch any error from form submit
 watch(() => error.value, (newError)=>{
   errors.value = JSON.parse(JSON.stringify(newError))
