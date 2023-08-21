@@ -5,56 +5,69 @@
         </template>
         <template #content>
             <BasicForm>
-                <CountryInput :modelValue="props.modelValue.country" @update:modelValue="updateInput('country', $event)" />
+                <CountryInput :modelValue="modelValue.country_id" @update:modelValue="updateInput('country_id', $event)" />
 
-                <CityInput :disabled="!props.modelValue.country" :error="errors.city_id"  v-bind="city_id"  @blur="validateField('city_id')" :value="props.modelValue.city_id" @input="updateInput('city_id', $event)" :country-id="props.modelValue?.country?.id"/>
+                <CityInput :modelValue="modelValue.city_id" @blur="validateInput('city_id', modelValue.city_id)"   :disabled="!modelValue.country_id" :error="errors?.city_id"   @update:modelValue="updateInput('city_id', $event)" :countryId="modelValue?.country_id"/>
 
-                <TextInput name="Street Name" :error="errors.street_name"  v-bind="street_name"  @blur="validateField('street_name')" :disabled="!props.modelValue.city_id" :value="props.modelValue.street_name" @input="updateInput('street_name', $event)"    />
+                <TextInput name="Street Name" :error="errors.street_name"   @blur="validateInput('street_name', modelValue.street_name)" :disabled="!modelValue.city_id" :value="modelValue.street_name" @input="updateInput('street_name', $event)"    />
 
-                <TextInput name="Street Number" :error="errors.street_nr"  v-bind="street_nr"  @blur="validateField('street_nr')" :disabled="!props.modelValue.city_id" :value="props.modelValue.street_nr" @input="updateInput('street_nr', $event)"  />
+                <TextInput name="Street Number" :error="errors.street_nr"   @blur="validateInput('street_nr', modelValue.street_nr)" :disabled="!modelValue.city_id" :value="modelValue.street_nr" @input="updateInput('street_nr', $event)"  />
                 
-                <TextInput name="Postcode" :error="errors.postcode"  v-bind="postcode"  @blur="validateField('postcode')" :disabled="!props.modelValue.city_id" :value="props.modelValue.postcode" @input="updateInput('postcode', $event)"  />
+                <TextInput name="Postcode" :error="errors?.postcode"  @blur="validateInput('postcode', modelValue.postcode)" :disabled="!modelValue.city_id" :value="modelValue.postcode" @input="updateInput('postcode', $event)"  />
             </BasicForm>
         </template>
     </Card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import CityInput from '@/components/inputs/CityInput.vue';
 import CountryInput from '@/components/inputs/CountryInput.vue';
-import {watch} from 'vue'
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
+import {watch, ref, toRefs} from 'vue'
+import AddressFormValidation from '@/services/forms/validation/AddressFormValidation'
+import {  IFormErrObj } from '@/types/forms'
 
-//set model props
-const props = defineProps({
-  modelValue:{
-    type: Object,
-    required: true,
-    default: {
-        country: null,
-        city_id: null,
-        street_nr: null,
-        street_name: null,
-        postcode: null
-    }
-  },
-  error: {
-    type: Object,
-    required: false,
-    default: {}
+interface IAddressForm {
+  country_id: number|null,
+  city_id: number|null,
+  street_nr: string|null,
+  street_name: string|null,
+  postcode: string|null
+}
+
+interface IError {
+  [key: string]: string
+}
+//set props
+const props = withDefaults(
+  defineProps<{ 
+    modelValue: IAddressForm, 
+    error: IError
+  }>(), 
+  {
+    modelValue: () => {
+        return {
+          country_id: null,
+          city_id: null,
+          street_nr: null,
+          street_name: null,
+          postcode: null
+        }
+    } ,
+    error: () => {return {}}  
   }
-})
+)
+const { modelValue, error } = toRefs(props)
 
-const emit = defineEmits();
-const updateInput = (prop, value) => {
-  emit('update:modelValue', { ...props.modelValue, [prop]: value });
+//update model externally
+const emit = defineEmits(['update:modelValue']);
+const updateInput = (prop: string, value: string|number|boolean|null) => {
+  emit('update:modelValue', { ...modelValue.value, [prop]: value });
 };
 
 //clear city when no country selected
-watch(props.modelValue, (newVal)=>{
+watch(modelValue.value, (newVal)=>{
     //clear city when country is cleared
-    if(newVal?.country === null){
+    if(newVal?.country_id === null){
         updateInput('city_id', null)
     }
     //clear street name, nr, postcode when city is cleared
@@ -65,27 +78,21 @@ watch(props.modelValue, (newVal)=>{
     }
 })
 
-//make the validation
-
-// //set input validation
-// //set form validation schema
-const { setErrors, defineInputBinds, validateField, errors} = useForm({
-  validationSchema: yup.object({
-    city_id: yup.string().required(),
-    street_name: yup.string().required(),
-    street_nr: yup.string().required(),
-    postcode: yup.string().required(),
-  }),
-});
-
-const validationBind = (fieldName) => defineInputBinds(fieldName, {validateOnValueUpdate: false, validateOnInput: false})
-const city_id = validationBind('city_id');
-const street_name = validationBind('street_name');
-const street_nr = validationBind('street_nr');
-const postcode = validationBind('postcode');
-
+//validate inputs
+let errors = ref<IFormErrObj>({})
+let validator = new AddressFormValidation()
+const validateInput = (inputName: string, inputValue: string|number|boolean|null)=>{
+  validator.validateInput(inputName, inputValue)
+  .then((data) =>{
+    console.log(data)
+    errors.value = data
+  })
+}
+watch(() => errors.value, (ffff)=>{
+  console.log(ffff)
+})
 //watch any error from form submit
-watch(() => props.error, (newError)=>{
-  setErrors(JSON.parse(JSON.stringify(newError)))
+watch(() => error.value, (newError)=>{
+  errors.value = JSON.parse(JSON.stringify(newError))
 })
 </script>

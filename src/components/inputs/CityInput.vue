@@ -1,69 +1,62 @@
 <template>
     <div class="flex flex-col">
         <InputLabel >City</InputLabel>
-        <Dropdown v-model="cityId" :disabled="props.disabled" :class="{'p-invalid': props.error}" @blur="emit('blur')" showClear :options="cityStore.cities" filter optionValue="id" optionLabel="name" placeholder="Please select" />
-        <InputError>{{ props.error }}</InputError>
+        <Dropdown :modelValue="modelValue" @update:modelValue="emit('update:modelValue', $event)" :disabled="disabled" :class="{'p-invalid': error}" @blur="emit('blur')" showClear :options="cities" filter optionValue="id" optionLabel="name" placeholder="Please select" />
+        <InputError>{{ error }}</InputError>
     </div>
 </template>
 
-<script setup>
-import City from '@/services/models/City'
+<script setup lang="ts">
 import InputLabel from '@/components/inputs/extras/InputLabel.vue'
 import InputError from '@/components/inputs/extras/InputError.vue'
-import { onMounted, computed, watch, onUnmounted } from "vue";
-import { useCityStore } from "@/store/city.store";
+import { onMounted, watch, onUnmounted, toRefs, ref } from "vue"
+import CityService from '@/services/repositories/CitiesService' 
+import { ICity } from '../../types/database';
 
-//set the model
-const props = defineProps({
-  value: {
-    type: [Number],
-    required: false,
-    default: null,
-  },
-  countryId: {
-    type: Number,
-    required: false,
-    default: null,
-  },
-  disabled:{
-    type: Boolean,
-    required: false,
-    default: false,
-  },
-  error:{
-    type: String,
-    required: false,
-    default: ''
+const props = withDefaults(
+  defineProps<{ 
+    modelValue: number | null, 
+    countryId: number | null, 
+    disabled: boolean,
+    error: string
+  }>(), 
+  {
+    modelValue: null,
+    countryId: null,
+    disabled: false,
+    error: ''  
   }
-});
+)
+const { modelValue, countryId, disabled, error } = toRefs(props)
 
-const emit = defineEmits(['input', 'blur'])
+const emit = defineEmits(['update:modelValue', 'blur'])
 
-const cityId = computed({
-  get() {
-    return props.value
-  },
-  set(value) {
-    emit('input', value)
-  }
-})
+//get cities list
+let cities = ref<ICity[]>([])
 
-const cityStore = useCityStore()
-//get cities
 const fetchCities = () => { 
-  props.countryId ? cityStore.getAll(City.where({country_id: props.countryId})) : cityStore.getAll(new City())
+  CityService.getByCountry(countryId.value)
+  .then((result)=>{
+    cities.value = result
+  })
+  .catch(()=>{
+    cities.value = []
+    throw Error('Cities missing in cities input')
+  })
 }
 
 //clear city when country changes
-watch(() => props.countryId, () => {
-  cityId.value = null
+watch(() => countryId.value, () => {
+  emit('update:modelValue', null)
   fetchCities()
 })
 
 onMounted(() => {
   fetchCities()
 })
+
 onUnmounted(() => {
-  cityId.value = null
+  emit('update:modelValue', null)
 })
-</script>@/services/models/City
+
+</script>
