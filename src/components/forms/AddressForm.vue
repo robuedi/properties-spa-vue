@@ -24,24 +24,13 @@ import CityInput from '@/components/inputs/CityInput.vue';
 import CountryInput from '@/components/inputs/CountryInput.vue';
 import {watch, ref, toRefs} from 'vue'
 import AddressFormValidation from '@/services/forms/validation/AddressFormValidation'
-import {  GeneralInputType, FormErrorMessages } from '@/types/forms'
+import {  IAddressForm, GeneralInputType, FormErrorMessages } from '@/types/forms'
 
-interface IAddressForm {
-  country_id: number|null,
-  city_id: number|null,
-  street_nr: string|null,
-  street_name: string|null,
-  postcode: string|null
-}
-
-interface IError {
-  [key: string]: string
-}
 //set props
 const props = withDefaults(
   defineProps<{ 
     modelValue: IAddressForm, 
-    error: IError
+    error: FormErrorMessages
   }>(), 
   {
     modelValue: () => {
@@ -67,18 +56,18 @@ const updateInput = (prop: string, value: GeneralInputType) => {
 //clear city when no country selected
 watch(modelValue.value, (newVal)=>{
     //clear city when country is cleared
-    if(newVal?.country_id === null){
+    if(!newVal.country_id){
         updateInput('city_id', null)
     }
     //clear street name, nr, postcode when city is cleared
-    if(newVal?.city_id === null){
-        updateInput('street_nr', null)
-        updateInput('street_name', null)
-        updateInput('postcode', null)
+    if(!newVal.city_id){
+      updateInput('street_nr', null)
+      updateInput('street_name', null)
+      updateInput('postcode', null)
     }
 })
 
-//validate inputs
+//error messages
 let errors = ref<FormErrorMessages>({})
 
 //make validation 
