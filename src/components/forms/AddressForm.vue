@@ -24,7 +24,7 @@ import CityInput from '@/components/inputs/CityInput.vue';
 import CountryInput from '@/components/inputs/CountryInput.vue';
 import {watch, ref, toRefs} from 'vue'
 import AddressFormValidation from '@/services/forms/validation/AddressFormValidation'
-import {  IAddressForm, GeneralInputType, FormErrorMessages } from '@/types/forms'
+import { IAddressForm, GeneralInputType, FormErrorMessages } from '@/types/forms'
 
 //set props
 const props = withDefaults(
@@ -74,7 +74,5 @@ let errors = ref<FormErrorMessages>({})
 let { doValidate } = AddressFormValidation.make((data) => { errors.value = data })
 
 //watch any error from form submit
-watch(() => error.value, (newError)=>{
-  errors.value = JSON.parse(JSON.stringify(newError))
-})
+watch(() => error.value, (newError) => { errors.value = newError })
 </script>

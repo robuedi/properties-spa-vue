@@ -18,3 +18,13 @@ export interface IAddressForm {
     street_name: string|null,
     postcode: string|null
 }
+
+export interface IPropertyForm {
+    name: null,
+    description: null,
+    bedrooms: null,
+    bathrooms: null,
+    listing_type_id: null,
+    property_type_id: null,
+    is_public: false
+}

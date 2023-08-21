@@ -5,89 +5,66 @@
         </template>
         <template #content>
             <BasicForm>
-                <InputSwitch2 label="Is Public" :modelValue="props.modelValue.is_public" @update:modelValue="updateInput('is_public', $event)"  />
+                <InputSwitch2 label="Is Public" :modelValue="modelValue.is_public" @update:modelValue="updateInput('is_public', $event)"  />
 
-                <TextInput name="Name" :error="errors.name" v-bind="name"  @blur="validateField('name')" :value="props.modelValue.name" @input="updateInput('name', $event)" />
+                <TextInput name="Name" :error="errors.name" @blur="doValidate('name', modelValue.name)" :value="modelValue.name" @input="updateInput('name', $event)" />
 
-                <PropertyTypeInput :error="errors.property_type_id" v-bind="property_type_id"  @blur="validateField('property_type_id')" :value="props.modelValue.property_type_id" @input="updateInput('property_type_id', $event)" />
+                <PropertyTypeInput :error="errors.property_type_id" @blur="doValidate('property_type_id', modelValue.property_type_id)" :value="modelValue.property_type_id" @input="updateInput('property_type_id', $event)" />
 
-                <ListingTypeInput :error="errors.listing_type_id" v-bind="listing_type_id" @blur="validateField('listing_type_id')"  :value="props.modelValue.listing_type_id"  @input="updateInput('listing_type_id', $event)" />
+                <ListingTypeInput :error="errors.listing_type_id" @blur="doValidate('listing_type_id', modelValue.listing_type_id)"  :value="modelValue.listing_type_id"  @input="updateInput('listing_type_id', $event)" />
 
-                <TextareaInput name="Description" :error="errors.description" v-bind="description" @blur="validateField('description')" :value="props.modelValue.description" @input="updateInput('description', $event)" />
+                <TextareaInput name="Description" :error="errors.description" @blur="doValidate('description', modelValue.description)" :value="modelValue.description" @input="updateInput('description', $event)" />
 
-                <NumberInput name="Number of Bedrooms" :error="errors.bedrooms" v-bind="bedrooms" @blur="validateField('bedrooms')" :modelValue="props.modelValue.bedrooms" @input="updateInput('bedrooms', $event)"  />
+                <NumberInput name="Number of Bedrooms" :error="errors.bedrooms" @blur="doValidate('bedrooms', modelValue.bedrooms)" :modelValue="modelValue.bedrooms" @input="updateInput('bedrooms', $event)"  />
 
-                <NumberInput name="Number of Bathrooms" :error="errors.bathrooms" v-bind="bathrooms" @blur="validateField('bathrooms')" :modelValue="props.modelValue.bathrooms" @input="updateInput('bathrooms', $event)"  />
+                <NumberInput name="Number of Bathrooms" :error="errors.bathrooms" @blur="doValidate('bathrooms', modelValue.bathrooms)" :modelValue="modelValue.bathrooms" @input="updateInput('bathrooms', $event)"  />
             </BasicForm>
         </template>
     </Card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import PropertyTypeInput from '@/components/inputs/PropertyTypeInput.vue';
 import ListingTypeInput from '@/components/inputs/ListingTypeInput.vue';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import {watch, ref, toRef} from 'vue'
+import { IPropertyForm, FormErrorMessages, GeneralInputType } from '@/types/forms'
+import PropertyFormValidation from '@/services/forms/validation/PropertyFormValidation'
+import {watch, ref, toRefs} from 'vue'
 
-//set model props
-const props = defineProps({
-  modelValue:{
-    type: Object,
-    required: true,
-    default: {
-      name: null,
-      description: null,
-      bedrooms: null,
-      bathrooms: null,
-      listing_type_id: null,
-      property_type_id: null,
-      is_public: false
-    }
-  },
-  error: {
-    type: Object,
-    required: false,
-    default: {
-      name: [],
-      description: [],
-      bedrooms: [],
-      bathrooms: [],
-      listing_type_id: [],
-      property_type_id: []
-    }
+//set props
+const props = withDefaults(
+  defineProps<{ 
+    modelValue: IPropertyForm, 
+    error: FormErrorMessages
+  }>(), 
+  {
+    modelValue: () => {
+      return {
+        name: null,
+        description: null,
+        bedrooms: null,
+        bathrooms: null,
+        listing_type_id: null,
+        property_type_id: null,
+        is_public: false
+      }
+    } ,
+    error: () => {return {}}  
   }
-})
+)
+
+const { modelValue, error } = toRefs(props)
 
 const emit = defineEmits();
-const updateInput = (prop, value) => {
-  emit('update:modelValue', { ...props.modelValue, [prop]: value });
+const updateInput = (prop: string, value: GeneralInputType) => {
+  emit('update:modelValue', { ...modelValue.value, [prop]: value });
 };
 
-// //set input validation
-// //set form validation schema
-const {  setErrors, defineInputBinds, validateField, errors} = useForm({
-  validationSchema: yup.object({
-    name: yup.string().required(),
-    description: yup.string().required(),
-    property_type_id: yup.string().required(),
-    listing_type_id: yup.string().required(),
-    bathrooms: yup.number().required(),
-    bedrooms: yup.number().required(),
-  }),
-});
+//set input validation error messages
+let errors = ref<FormErrorMessages>({})
 
-const validationBind = (fieldName) => defineInputBinds(fieldName, {validateOnValueUpdate: false, validateOnInput: false})
-const name = validationBind('name');
-const property_type_id = validationBind('property_type_id');
-const listing_type_id = validationBind('listing_type_id');
-const description = validationBind('description');
-const bathrooms = validationBind('bathrooms');
-const bedrooms = validationBind('bedrooms');
+//make validation 
+let { doValidate } = PropertyFormValidation.make((data) => { errors.value = data })
 
 //watch any error from form submit
-// let formError = toRef(props.error)
-watch(() => props.error, (newError)=>{
-  setErrors(JSON.parse(JSON.stringify(newError)))
-})
+watch(() => error.value, (newError)=>{ errors.value = newError })
 </script>
