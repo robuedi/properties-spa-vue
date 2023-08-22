@@ -5,14 +5,13 @@
         </template>
         <template #content>
             <BasicForm class="mt-3">
-                <ErrorFeedback :error="errors.name">
-                    <InputText placeholder="Name" class="w-full" id="value" v-bind="name" type="text" name="name" :class="{ 'p-invalid': !!errors.name }" aria-describedby="text-error"  />
-                </ErrorFeedback>
-                <ErrorFeedback :error="errors.email">
-                    <InputText placeholder="Email" class="w-full" id="value" v-bind="email" type="text" name="email" :class="{ 'p-invalid': !!errors.email }" aria-describedby="text-error"  />
-                </ErrorFeedback>
+
+                <TextInput  name="Name" v-model="form.name" :error="errors?.name" @blur="doValidate('name', $event)"  />
+                <TextInput  name="Email" v-model="form.name" :error="errors?.email" @blur="doValidate('email', $event)"  />
+
                 <ErrorFeedback :error="errors.password">
-                    <Password  v-bind="password" inputClass="w-full" placeholder="Password">
+                    <InputLabel>Password</InputLabel>
+                    <Password  v-model="form.password" @update="doValidate('password', $event)"  inputClass="w-full" placeholder="Please insert">
                         <template #header>
                             <h6>Pick a password</h6>
                         </template>
@@ -29,7 +28,8 @@
                     </Password>
                 </ErrorFeedback>
                 <ErrorFeedback :error="errors.password_confirmation">
-                    <Password :feedback="false"  v-bind="password_confirmation" inputClass="w-full" placeholder="Password Confirmation"/>
+                    <InputLabel>Password Confirmation</InputLabel>
+                    <Password :feedback="false" @update="doValidate('password_confirmation', $event)" v-model="form.password_confirmation" inputClass="w-full" placeholder="Please insert"/>
                 </ErrorFeedback>
                 <InlineMessage v-if="errors?.general" severity="warn">{{errors?.general}}</InlineMessage>
             </BasicForm>
@@ -45,10 +45,12 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from 'vee-validate'
-import * as yup from 'yup'
 import { useAuthStore } from "@/store/auth.store"
-import { UserRegistrationCredentials } from '@/types/api'
+import { IRegistrationForm } from '@/types/forms'
+import RegisterFormValidation from '@/services/forms/validation/RegisterFormValidation'
+import useFormValidator from '@/composables/formValidator'
+import InputLabel from '@/components/inputs/extras/InputLabel.vue'
+import {ref} from 'vue'
 
 //set props
 const { hideLoginLink } = withDefaults(defineProps<{ hideLoginLink?: boolean }>(), {
@@ -57,45 +59,36 @@ const { hideLoginLink } = withDefaults(defineProps<{ hideLoginLink?: boolean }>(
 
 const auth = useAuthStore()
 
-//set form validation schema
-const { defineComponentBinds, handleSubmit, errors} = useForm({
-  validationSchema: yup.object({
-    name: yup.string().min(2).required(),
-    email: yup.string().email().required(),
-    password: yup.string().min(6).required(),
-    password_confirmation: yup.string().min(6).required(),
-  }),
-});
+const form = ref<IRegistrationForm>({
+    name: null,
+    email: null,
+    password: null,
+    password_confirmation: null
+})
 
-//set input binders
-const name = defineComponentBinds('name');
-const email = defineComponentBinds('email');
-const password = defineComponentBinds('password');
-const password_confirmation = defineComponentBinds('password_confirmation');
+//make validation 
+let { errors, doValidate } = useFormValidator(RegisterFormValidation)
 
 //do the registration
 const emit = defineEmits(['registered'])
-const doRegister = handleSubmit((values , { setErrors, resetForm }) => {
-    //cast the values as the type we need for the api
-    let valueCast = values as UserRegistrationCredentials
-    if(!valueCast){
-        throw new Error('Wrong registration fields sent')
-    }
-
+const doRegister = () => {
     //submit registration request
-    auth.register(valueCast)
+    auth.register(form.value)
     .then(() => {
-        resetForm()
         emit('registered', true)
     })
     .catch((err)=>{
         if(Array.isArray(err.response.data.errors)&&err.response.data.errors.length > 0){
-            setErrors({'general': err.response.data.errors.flat()})
+            errors.value = {'general': err.response.data.errors.flat()}
         }
         else{
-            setErrors(err.response.data.errors)
+            let errors_: {[key:string]: string} = {}
+            for(let errKey in err.response.data.errors){
+                errors_[errKey] = err.response.data.errors[errKey].join(' ')
+            }
+            errors.value = errors_
         }
     })
-});
+}
 
 </script>

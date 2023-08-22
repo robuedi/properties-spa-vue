@@ -68,7 +68,7 @@ watch(modelValue.value, (newVal)=>{
 })
 
 //make validation 
-let { errors, doValidate } = useFormValidator(AddressFormValidation, (data) => { errors.value = data })
+let { errors, doValidate } = useFormValidator(AddressFormValidation)
 
 //watch any error from form submit
 watch(() => error.value, (newError) => { errors.value = newError })

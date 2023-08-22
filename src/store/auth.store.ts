@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import { UserRegistrationCredentials } from '@/types/api'
 import { UserLoginCredentials } from '@/types/api'
+import { IRegistrationForm } from '../types/forms';
 
 //default values
 const defaultUser = {name:'', email:''}
@@ -17,7 +17,7 @@ export const useAuthStore = defineStore("auth",{
         authUser: (state) => state.user,
     },
     actions: {
-        async register(credentials: UserRegistrationCredentials) {
+        async register(credentials: IRegistrationForm) {
             return window.axios.post("auth/register", {name: credentials.name, email: credentials.email, password: credentials.password, password_confirmation: credentials.password_confirmation})
         },
         async login(credentials: UserLoginCredentials) {

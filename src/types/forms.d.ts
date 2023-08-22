@@ -33,3 +33,11 @@ export interface IPropertyForm {
 export interface ISellListing {
     price: null
 }
+
+
+export interface IRegistrationForm {
+    name: string|null,
+    email: string|null,
+    password: string|null,
+    password_confirmation: string|null,
+}

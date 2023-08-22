@@ -42,7 +42,7 @@ const emit = defineEmits(['update:modelValue'])
 const { updateInput } = useUpdateModelProperty<ISellListing>(modelValue, emit)
 
 //make validation 
-let { errors, doValidate } = useFormValidator(SellListingFormValidation, (data) => { errors.value = data })
+let { errors, doValidate } = useFormValidator(SellListingFormValidation)
 
 //watch any error from form submit
 watch(() => error.value, (newError) => { errors.value = newError })
