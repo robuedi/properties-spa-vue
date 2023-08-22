@@ -13,11 +13,4 @@ export default class PropertyFormValidation extends FormValidation {
             bedrooms: yup.number().required(),
         }, callback)
     }
-
-    static make(callback: ErrMsgCallback){
-        let validator = new this(callback)
-        return {
-            doValidate: validator.validateInput()
-        }
-    }
 }

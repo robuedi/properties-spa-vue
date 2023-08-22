@@ -26,9 +26,11 @@
 <script setup lang="ts">
 import PropertyTypeInput from '@/components/inputs/PropertyTypeInput.vue';
 import ListingTypeInput from '@/components/inputs/ListingTypeInput.vue';
-import { IPropertyForm, FormErrorMessages, GeneralInputType } from '@/types/forms'
+import { IPropertyForm, FormErrorMessages } from '@/types/forms'
 import PropertyFormValidation from '@/services/forms/validation/PropertyFormValidation'
-import {watch, ref, toRefs} from 'vue'
+import {watch, toRefs} from 'vue'
+import useFormValidator from '@/composables/formValidator'
+import useUpdateModelProperty from '@/composables/updateModelProperty'
 
 //set props
 const props = withDefaults(
@@ -54,16 +56,12 @@ const props = withDefaults(
 
 const { modelValue, error } = toRefs(props)
 
-const emit = defineEmits();
-const updateInput = (prop: string, value: GeneralInputType) => {
-  emit('update:modelValue', { ...modelValue.value, [prop]: value });
-};
-
-//set input validation error messages
-let errors = ref<FormErrorMessages>({})
+//emit model update
+const emit = defineEmits(['update:modelValue'])
+const { updateInput } = useUpdateModelProperty<IPropertyForm>(modelValue, emit)
 
 //make validation 
-let { doValidate } = PropertyFormValidation.make((data) => { errors.value = data })
+let { errors, doValidate } = useFormValidator(PropertyFormValidation, (data) => { errors.value = data })
 
 //watch any error from form submit
 watch(() => error.value, (newError)=>{ errors.value = newError })

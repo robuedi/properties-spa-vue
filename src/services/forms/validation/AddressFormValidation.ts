@@ -11,11 +11,4 @@ export default class AddressFormValidation extends FormValidation {
             postcode: yup.string().required().label('postcode'),
         }, callback)
     }
-
-    static make(callback: ErrMsgCallback){
-        let validator = new this(callback)
-        return {
-            doValidate: validator.validateInput()
-        }
-    }
 }

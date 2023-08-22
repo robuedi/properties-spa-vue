@@ -22,9 +22,11 @@
 <script setup lang="ts">
 import CityInput from '@/components/inputs/CityInput.vue';
 import CountryInput from '@/components/inputs/CountryInput.vue';
-import {watch, ref, toRefs} from 'vue'
+import {watch, toRefs} from 'vue'
 import AddressFormValidation from '@/services/forms/validation/AddressFormValidation'
-import { IAddressForm, GeneralInputType, FormErrorMessages } from '@/types/forms'
+import { IAddressForm, FormErrorMessages } from '@/types/forms'
+import useUpdateModelProperty from '@/composables/updateModelProperty'
+import useFormValidator from '@/composables/formValidator'
 
 //set props
 const props = withDefaults(
@@ -47,11 +49,9 @@ const props = withDefaults(
 )
 const { modelValue, error } = toRefs(props)
 
-//update model externally
-const emit = defineEmits(['update:modelValue']);
-const updateInput = (prop: string, value: GeneralInputType) => {
-  emit('update:modelValue', { ...modelValue.value, [prop]: value });
-};
+//emit model update
+const emit = defineEmits(['update:modelValue'])
+const { updateInput } = useUpdateModelProperty<IAddressForm>(modelValue, emit)
 
 //clear city when no country selected
 watch(modelValue.value, (newVal)=>{
@@ -67,11 +67,8 @@ watch(modelValue.value, (newVal)=>{
     }
 })
 
-//error messages
-let errors = ref<FormErrorMessages>({})
-
 //make validation 
-let { doValidate } = AddressFormValidation.make((data) => { errors.value = data })
+let { errors, doValidate } = useFormValidator(AddressFormValidation, (data) => { errors.value = data })
 
 //watch any error from form submit
 watch(() => error.value, (newError) => { errors.value = newError })

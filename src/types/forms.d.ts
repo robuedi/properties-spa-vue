@@ -7,6 +7,7 @@ export interface ErrMsgCallback {
 }
 
 export type ErrorMessagTxt =string | null
+
 export type FormErrorMessages = Record<string, ErrorMessagTxt>
 
 export type GeneralInputType = string|number|boolean|null
@@ -27,4 +28,8 @@ export interface IPropertyForm {
     listing_type_id: null,
     property_type_id: null,
     is_public: false
+}
+
+export interface ISellListing {
+    price: null
 }

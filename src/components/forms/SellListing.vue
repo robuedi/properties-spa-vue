@@ -6,52 +6,44 @@
         <template #content>
             <BasicForm>
 
-                <NumberInput name="Price" :error="errors.price" v-bind="price" @blur="validateField('price')" :modelValue="props.modelValue.price" @input="updateInput('price', $event)"  />
+                <NumberInput name="Price" :error="errors.price" @blur="doValidate('price', modelValue.price)" :modelValue="modelValue.price" @input="updateInput('price', $event)"  />
                 
             </BasicForm>
         </template>
     </Card>
 </template>
 
-<script setup>
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import {watch} from 'vue'
+<script setup lang="ts">
+import {watch, toRefs} from 'vue'
+import { ISellListing, FormErrorMessages } from '@/types/forms'
+import SellListingFormValidation from '@/services/forms/validation/SellListingFormValidation'
+import useUpdateModelProperty from '@/composables/updateModelProperty'
+import useFormValidator from '@/composables/formValidator'
 
-//set model props
-const props = defineProps({
-  modelValue:{
-    type: Object,
-    required: true,
-    default: {
-        price: null,
-    }
-  },
-  error: {
-    type: Object,
-    required: false,
-    default: {}
+//set props
+const props = withDefaults(
+  defineProps<{ 
+    modelValue: ISellListing, 
+    error: FormErrorMessages
+  }>(), 
+  {
+    modelValue: () => {
+        return {
+          price: null
+        }
+    } ,
+    error: () => {return {}}  
   }
-})
+)
+const { modelValue, error } = toRefs(props)
 
 //emit model update
-const emit = defineEmits();
-const updateInput = (prop, value) => {
-  emit('update:modelValue', { ...props.modelValue, [prop]: value });
-};
+const emit = defineEmits(['update:modelValue'])
+const { updateInput } = useUpdateModelProperty<ISellListing>(modelValue, emit)
 
-// //set input validation
-// //set form validation schema
-const {  setErrors, defineInputBinds, validateField, errors} = useForm({
-  validationSchema: yup.object({
-    price: yup.number().required(),
-  }),
-});
-
-const price = defineInputBinds('price', {validateOnValueUpdate: false, validateOnInput: false})
+//make validation 
+let { errors, doValidate } = useFormValidator(SellListingFormValidation, (data) => { errors.value = data })
 
 //watch any error from form submit
-watch(() => props.error, (newError)=>{
-  setErrors(JSON.parse(JSON.stringify(newError)))
-})
+watch(() => error.value, (newError) => { errors.value = newError })
 </script>
