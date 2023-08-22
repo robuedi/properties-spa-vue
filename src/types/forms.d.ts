@@ -34,6 +34,11 @@ export interface ISellListing {
     price: null
 }
 
+export interface ILoginForm {
+    email: string|null,
+    password: string|null,
+    deviceName?: string 
+}
 
 export interface IRegistrationForm {
     name: string|null,

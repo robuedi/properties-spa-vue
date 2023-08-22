@@ -4,13 +4,9 @@
             Sign in 
         </template>
         <template #content>
-            <BasicForm class="mt-3">
-                <ErrorFeedback :error="errors.email">
-                    <InputText placeholder="Email" class="w-full" id="value" v-bind="email" type="text" :class="{ 'p-invalid': !!errors.email }" aria-describedby="text-error"  />
-                </ErrorFeedback>
-                <ErrorFeedback :error="errors.password">
-                    <Password :feedback="false"  v-bind="password" :class="{ 'p-invalid': !!errors.password }" inputClass="w-full" placeholder="Password"/>
-                </ErrorFeedback>
+            <BasicForm >
+                <TextInput  name="Email" v-model="form.email" :error="errors?.email" @blur="doValidate('email', $event)"  />
+                <PasswordInput  name="Password" v-model="form.password" :error="errors?.password" @blur="doValidate('password', $event)"  />
                 <InlineMessage v-if="errors?.general" severity="warn">{{errors?.general}}</InlineMessage>
             </BasicForm>
         </template>
@@ -25,52 +21,39 @@
 </template>
 
 <script setup lang="ts">
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
 import { useAuthStore } from "@/store/auth.store";
-import { UserLoginCredentials } from '@/types/api'
+import { ILoginForm } from '@/types/forms'
+import LoginFormValidation from '@/services/forms/validation/LoginFormValidation'
+import useFormValidator from '@/composables/formValidator'
+import useFormErrParser from '@/composables/apiFormErrParser'
+import {ref} from 'vue'
 
 //set props
 const { hideRegisterLink } = withDefaults(defineProps<{ hideRegisterLink?: boolean }>(), {
     hideRegisterLink: false,
 })
 
-//set form validation schema
-const { defineComponentBinds, handleSubmit, errors} = useForm({
-  validationSchema: yup.object({
-    email: yup.string().email().required(),
-    password: yup.string().required(),
-  }),
-});
+const form = ref<ILoginForm>({
+    email: null,
+    password: null
+})
 
-//set input binders
-const email = defineComponentBinds('email');
-const password = defineComponentBinds('password');
+//make validation 
+let { errors, doValidate } = useFormValidator(LoginFormValidation)
 
 //do the login
 const auth = useAuthStore()
 const emit = defineEmits(['loggedIn'])
-const doLogin = handleSubmit((values, { setErrors, resetForm }) => {
-    //cast the values as the type we need for the api
-    let valueCast = values as UserLoginCredentials
-    if(!valueCast){
-        throw new Error('Wrong login fields sent')
-    }
-
-    auth.login(valueCast)
+const {formErrParse} = useFormErrParser()
+const doLogin = ()=>{
+    auth.login(form.value)
     .then(() => {
-        resetForm()
         emit('loggedIn', true)
     })
     .catch((err)=>{
-        if(Array.isArray(err?.response?.data?.errors)&&err?.response?.data?.errors?.length > 0){
-            setErrors({'general': err.response.data.errors.flat()})
-        }
-        else{
-            setErrors(err?.response?.data?.errors?? {'general': ['There have been some error processing your request.']})
-        }
+        errors.value = formErrParse(err?.response?.data?.error)
     })
-});
+}
 
 </script>
 

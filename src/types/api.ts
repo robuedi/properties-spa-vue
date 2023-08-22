@@ -4,10 +4,3 @@ export type FormErrorResponseData = {
         [key: string]: string[];
     }
 }
-
-export type UserLoginCredentials = {
-    email: string, 
-    password: string, 
-    deviceName?: string 
-}
-

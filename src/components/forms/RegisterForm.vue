@@ -7,7 +7,7 @@
             <BasicForm class="mt-3">
 
                 <TextInput  name="Name" v-model="form.name" :error="errors?.name" @blur="doValidate('name', $event)"  />
-                <TextInput  name="Email" v-model="form.name" :error="errors?.email" @blur="doValidate('email', $event)"  />
+                <TextInput  name="Email" v-model="form.email" :error="errors?.email" @blur="doValidate('email', $event)"  />
 
                 <ErrorFeedback :error="errors.password">
                     <InputLabel>Password</InputLabel>
@@ -49,6 +49,7 @@ import { useAuthStore } from "@/store/auth.store"
 import { IRegistrationForm } from '@/types/forms'
 import RegisterFormValidation from '@/services/forms/validation/RegisterFormValidation'
 import useFormValidator from '@/composables/formValidator'
+import useFormErrParser from '@/composables/apiFormErrParser'
 import InputLabel from '@/components/inputs/extras/InputLabel.vue'
 import {ref} from 'vue'
 
@@ -71,6 +72,7 @@ let { errors, doValidate } = useFormValidator(RegisterFormValidation)
 
 //do the registration
 const emit = defineEmits(['registered'])
+const {formErrParse} = useFormErrParser()
 const doRegister = () => {
     //submit registration request
     auth.register(form.value)
@@ -78,16 +80,7 @@ const doRegister = () => {
         emit('registered', true)
     })
     .catch((err)=>{
-        if(Array.isArray(err.response.data.errors)&&err.response.data.errors.length > 0){
-            errors.value = {'general': err.response.data.errors.flat()}
-        }
-        else{
-            let errors_: {[key:string]: string} = {}
-            for(let errKey in err.response.data.errors){
-                errors_[errKey] = err.response.data.errors[errKey].join(' ')
-            }
-            errors.value = errors_
-        }
+        errors.value = formErrParse(err?.response?.data?.error)
     })
 }
 

@@ -46,6 +46,7 @@ import TextareaInput from '@/components/inputs/TextareaInput.vue'
 import InputSwitch2 from '@/components/inputs/InputSwitch2.vue'
 import NumberInput from '@/components/inputs/NumberInput.vue'
 import TextInput from '@/components/inputs/TextInput.vue'
+import PasswordInput from '@/components/inputs/PasswordInput.vue'
 
 //custom 
 import ErrorFeedback from '@/components/inputs/extras/ErrorFeedback.vue';
@@ -80,4 +81,5 @@ createApp(App)
 .component('InputWrapper', InputWrapper)
 .component('NumberInput', NumberInput)
 .component('TextInput', TextInput)
+.component('PasswordInput', PasswordInput)
 .mount('#app')
