@@ -1,4 +1,4 @@
-import Model from '@/services/models/Model'
+import Model from '@/models/Model'
 import {IPropertyType} from '@/types/database'
 
 export default class PropertyType extends Model {

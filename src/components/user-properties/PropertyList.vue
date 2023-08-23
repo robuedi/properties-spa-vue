@@ -21,8 +21,8 @@ import { ref, onMounted } from "vue";
 let userProperties = ref<IUserProperty[]>([])
 
 onMounted(() => {
-    UserPropertyService
-    .getAll()
+    let propService = new UserPropertyService()
+    propService.getAll()
     .then((data) => {
         userProperties.value = data.data
     })

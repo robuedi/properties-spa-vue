@@ -45,7 +45,7 @@ const breadcrumbItems = ref([
     {
         label: 'My Properties',
         command: ()=>{
-          router.push({name: 'properties'})
+          router.push({name: 'my-properties'})
         }
     },
     {label: 'Add Property'},
@@ -81,7 +81,8 @@ const saveProperty = () => {
     let {property, ...propertyExtrasData}  = propertyData
 
     //trigger store
-    UserPropertyService.store({...property, ...propertyExtrasData})
+    let propService = new UserPropertyService
+    propService.store({...property, ...propertyExtrasData})
     .then(()=>{
         toast.add({ severity: 'success', summary: 'New property created', life: 3000 });
         router.push({name: 'my-properties'})

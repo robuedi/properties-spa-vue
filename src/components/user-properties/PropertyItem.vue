@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col xl:flex-row  px-12 py-6 gap-4">
       <img class="w-36 rounded-md drop-shadow-md sm:w-16rem xl:w-10rem block xl:block mx-auto" :src="`https://loremflickr.com/500/300/property,style,modern?v=${Math.random()}`" :alt="property.name" />
-      <div class="flex flex-col sm:flex-row justify-between items-center xl:items-start flex-1 gap-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center xl:items-center flex-1 gap-4">
           <div class="flex flex-col items-center sm:items-start gap-3">
               <div class="text-2xl font-bold text-slate-950	">{{ property.name }}</div>
               <div class="flex items-center gap-3">
@@ -12,6 +12,7 @@
                   <Tag :value="property.is_public ? 'PUBLIC' : 'NOT PUBLIC'" :severity="property.is_public ? 'success' : 'warning'"></Tag>
               </div>
           </div>
+          <span v-if="property.listing_type" class="uppercase font-black text-xl tracking-widest text-slate-400">{{ property.listing_type.name }}</span>
           <div class="flex sm:flex-col items-center sm:items-end gap-3 sm:gap-2">
               <span class="text-2xl font-semibold">
                 <template v-if="property.listing_type && property.rent_listing && property.listing_type.name === 'rent'">
@@ -26,7 +27,10 @@
                   ${{ property.sell_listing.price }}
                 </template>
               </span>
-              <Button icon="pi pi-shopping-cart" rounded ></Button>
+              <div>
+                <Button icon="pi pi-trash" class="mr-4"  severity="danger" rounded ></Button>
+                <Button icon="pi pi-file-edit" rounded ></Button>
+              </div>
           </div>
       </div>
   </div>

@@ -1,4 +1,4 @@
-import Model from '@/services/models/Model'
+import Model from '@/models/Model'
 import {IListingType} from '@/types/database'
 
 export default class ListingType extends Model {

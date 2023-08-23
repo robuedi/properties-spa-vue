@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import City from  "@/services/models/City";
+import City from  "@/models/City";
 
 import {ICity} from '@/types/database'
 

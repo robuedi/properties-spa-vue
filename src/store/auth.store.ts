@@ -4,7 +4,7 @@ import { IRegistrationForm } from '../types/forms';
 import { ILoginForm } from '@/types/forms'
 
 //default values
-const defaultUser = {name:'', email:''}
+const defaultUser = {id: null, name:'', email:''}
 
 export const useAuthStore = defineStore("auth",{
     state: () => ({

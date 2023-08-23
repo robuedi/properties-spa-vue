@@ -1,4 +1,4 @@
-import Model from '@/services/models/Model'
+import Model from '@/models/Model'
 
 export default class Country extends Model {
   resource() {

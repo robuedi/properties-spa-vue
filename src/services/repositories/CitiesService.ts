@@ -1,4 +1,4 @@
-import City from  "@/services/models/City";
+import City from  "@/models/City";
 import {ICity} from '@/types/database'
 
 export default class CitiesService {

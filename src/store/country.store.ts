@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import Country from  "@/services/models/Country";
+import Country from  "@/models/Country";
 import {ICountry} from '@/types/database'
 
 export const useCountryStore = defineStore("country",{

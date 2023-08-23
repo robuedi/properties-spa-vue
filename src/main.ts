@@ -49,10 +49,11 @@ import TextInput from '@/components/inputs/TextInput.vue'
 import PasswordInput from '@/components/inputs/PasswordInput.vue'
 
 //custom 
-import ErrorFeedback from '@/components/inputs/extras/ErrorFeedback.vue';
-import BasicForm from '@/components/inputs/extras/BasicForm.vue';
-import InputWrapper from '@/components/inputs/extras/InputWrapper.vue';
-
+import ErrorFeedback from '@/components/inputs/extras/ErrorFeedback.vue'
+import BasicForm from '@/components/inputs/extras/BasicForm.vue'
+import InputWrapper from '@/components/inputs/extras/InputWrapper.vue'
+import Heading1 from '@/components/typography/Heading1.vue'
+import HeadingContainer from '@/components/layout/HeadingContainer.vue'
 
 createApp(App)
 .use(router)
@@ -82,4 +83,6 @@ createApp(App)
 .component('NumberInput', NumberInput)
 .component('TextInput', TextInput)
 .component('PasswordInput', PasswordInput)
+.component('Heading1', Heading1)
+.component('HeadingContainer', HeadingContainer)
 .mount('#app')
