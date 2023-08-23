@@ -34,6 +34,14 @@ export interface ISellListing {
     price: null
 }
 
+export interface IRentListing {
+    price_weekly: null,
+    price_monthly: null,
+    deposit: null,
+    minimum_tenancy: null,
+    pets_allowed: null
+}
+
 export interface ILoginForm {
     email: string|null,
     password: string|null,

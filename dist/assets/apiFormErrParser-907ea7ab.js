@@ -1,0 +1,1 @@
+function s(){return{formErrParse:r=>{if(Array.isArray(r)&&r.length>0)return{general:r.flat().join("")};let e=r;if(e){let n={};for(let t in e)n[t]=e[t].join(" ");return n}throw Error("Unknown error message from server")}}}export{s as u};

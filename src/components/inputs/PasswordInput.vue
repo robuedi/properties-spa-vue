@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col">
         <InputLabel v-if="props.name !== null" :for="props.id">{{props.name}}</InputLabel>
-        <Password v-bind="$attrs, $props"  :placeholder="props.placeholder !== null ? props.placeholder : 'Please insert'"  :class="{'p-invalid': props.error}"  @blur="emit('blur',  $event.target.value)" @input="emit('input', $event.target.value)" />
+        <Password v-bind="$attrs, $props"  :placeholder="props.placeholder !== null ? props.placeholder : 'Please insert'" inputClass="w-full" :class="{'p-invalid': props.error}"  @blur="emit('blur',  $event.target.value)" @input="emit('input', $event.target.value)" />
         <InputError>{{ props.error }}</InputError>
     </div>
 </template>

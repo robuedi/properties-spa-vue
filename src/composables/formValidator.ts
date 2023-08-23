@@ -14,6 +14,7 @@ export default function useFormValidator<T extends FormValidation>(validatorClas
 
     return { 
         doValidate,
-        errors
+        errors,
+        validator
     }
 }

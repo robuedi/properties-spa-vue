@@ -1,14 +1,22 @@
-import * as yup from 'yup'
 import {  GeneralInputType, FormErrorMessages, IInputObj, ErrMsgCallback } from '@/types/forms'
+import { ObjectSchema } from 'yup';
+import * as yup from 'yup';
 
 export default class FormValidation{
 
     protected errors: FormErrorMessages = {}
     protected errorsCallback: ErrMsgCallback = ()=>{}
-    protected schemaObj 
+    protected schemaObj: ObjectSchema<any>
 
-    constructor(schemaObj_: {}, errorsCallback: ErrMsgCallback){
-        this.schemaObj = yup.object().shape(schemaObj_)
+    constructor(schemaObj: ObjectSchema<any>|{}, errorsCallback: ErrMsgCallback){
+        //check if we get the preconfigured schema or just the rules
+        if(schemaObj instanceof ObjectSchema){
+            this.schemaObj = schemaObj
+        }
+        else{
+            this.schemaObj = yup.object().shape(schemaObj)
+        }
+
         this.errorsCallback = errorsCallback
     }
 
